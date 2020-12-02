@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,8 @@
 		CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7AAA8C2571203A00827347 /* HomeCVC.swift */; };
 		CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8CB8B72564223300C55619 /* LibViewController.swift */; };
 		CFE8B77E256EB10200F43917 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8B77D256EB10200F43917 /* ProfileViewController.swift */; };
+		CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFA13132577C58C00039009 /* ForgotPassViewController.swift */; };
+		CFFA1327257801DD00039009 /* ChangePassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFA1326257801DD00039009 /* ChangePassViewController.swift */; };
 		EAAAD5740557034D5AE490D2 /* Pods_Bookaholic_BookaholicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9B4081A5CDC11BDB696919 /* Pods_Bookaholic_BookaholicUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +79,8 @@
 		CF7AAA8C2571203A00827347 /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		CF8CB8B72564223300C55619 /* LibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibViewController.swift; sourceTree = "<group>"; };
 		CFE8B77D256EB10200F43917 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CFFA13132577C58C00039009 /* ForgotPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassViewController.swift; sourceTree = "<group>"; };
+		CFFA1326257801DD00039009 /* ChangePassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassViewController.swift; sourceTree = "<group>"; };
 		CFFA19A4122B2E52A7C6B3B4 /* Pods-Bookaholic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookaholic.release.xcconfig"; path = "Target Support Files/Pods-Bookaholic/Pods-Bookaholic.release.xcconfig"; sourceTree = "<group>"; };
 		E17DCEB018D8C9678379E0CD /* Pods-Bookaholic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookaholic.debug.xcconfig"; path = "Target Support Files/Pods-Bookaholic/Pods-Bookaholic.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,7 +123,6 @@
 				76C57B7BEFE277EB77A19510 /* Pods-BookaholicTests.debug.xcconfig */,
 				2ED292E90EFF2ABB9DD3BA8A /* Pods-BookaholicTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -164,6 +167,8 @@
 				CF754C1D255C1D4C00ED9DA6 /* Bookaholic.xcdatamodeld */,
 				CF2E846B257047F6004F4B02 /* HomeViewController.swift */,
 				CF7AAA8C2571203A00827347 /* HomeCVC.swift */,
+				CFFA13132577C58C00039009 /* ForgotPassViewController.swift */,
+				CFFA1326257801DD00039009 /* ChangePassViewController.swift */,
 			);
 			path = Bookaholic;
 			sourceTree = "<group>";
@@ -437,11 +442,13 @@
 				CF417AA22566DBF200B74EBE /* PostViewController.swift in Sources */,
 				CF754C19255C1D4C00ED9DA6 /* ViewController.swift in Sources */,
 				CFE8B77E256EB10200F43917 /* ProfileViewController.swift in Sources */,
+				CFFA1327257801DD00039009 /* ChangePassViewController.swift in Sources */,
 				CF754C15255C1D4C00ED9DA6 /* AppDelegate.swift in Sources */,
 				CF754C1F255C1D4C00ED9DA6 /* Bookaholic.xcdatamodeld in Sources */,
 				CF6A9F752563F0FF00EAE34F /* RegisterViewController.swift in Sources */,
 				CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */,
 				CF754C17255C1D4C00ED9DA6 /* SceneDelegate.swift in Sources */,
+				CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */,
 				CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */,
 				CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */,
 				CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */,

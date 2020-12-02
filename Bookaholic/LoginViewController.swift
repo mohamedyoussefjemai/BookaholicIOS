@@ -13,6 +13,11 @@ class LoginViewController: UIViewController{
     
    
     
+    
+    @IBAction func Forgot(_ sender: Any) {
+        goToForgotPass()
+    }
+    
     @IBOutlet weak var eye: UIButton!
     @IBOutlet weak var tfPass: UITextField!
     @IBOutlet weak var btnLogin: UIButton!
@@ -107,8 +112,13 @@ class LoginViewController: UIViewController{
         let destination = segue.destination as! ProfileViewController
         destination.mail = mail
     }
-    func goToProfile(){
-        let vc=storyboard?.instantiateViewController(identifier: "profile_VC")as!ProfileViewController
+    func goToForgotPass(){
+        let vc=storyboard?.instantiateViewController(identifier: "forgot")as! ForgotPassViewController
+        present(vc, animated: true)
+        
+    }
+    @IBAction func goToRegister(){
+        let vc=storyboard?.instantiateViewController(identifier: "register")as! RegisterViewController
         present(vc, animated: true)
         
     }
