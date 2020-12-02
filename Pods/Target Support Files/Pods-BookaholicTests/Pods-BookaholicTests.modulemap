@@ -1,0 +1,6 @@
+framework module Pods_BookaholicTests {
+  umbrella header "Pods-BookaholicTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
