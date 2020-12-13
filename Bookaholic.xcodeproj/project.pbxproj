@@ -12,6 +12,8 @@
 		CF2E846C257047F6004F4B02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E846B257047F6004F4B02 /* HomeViewController.swift */; };
 		CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF417A9C2566DBDC00B74EBE /* FavViewController.swift */; };
 		CF417AA22566DBF200B74EBE /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF417AA12566DBF200B74EBE /* PostViewController.swift */; };
+		CF5E6E342580E92F000CBA0B /* UpDateBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */; };
+		CF5FA281257FE5D0006BD81E /* AddBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */; };
 		CF6A9F752563F0FF00EAE34F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6A9F742563F0FF00EAE34F /* RegisterViewController.swift */; };
 		CF754C15255C1D4C00ED9DA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF754C14255C1D4C00ED9DA6 /* AppDelegate.swift */; };
 		CF754C17255C1D4C00ED9DA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF754C16255C1D4C00ED9DA6 /* SceneDelegate.swift */; };
@@ -25,7 +27,9 @@
 		CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A094F255C2B0000848CC1 /* LoginViewController.swift */; };
 		CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7AAA8C2571203A00827347 /* HomeCVC.swift */; };
 		CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8CB8B72564223300C55619 /* LibViewController.swift */; };
+		CFD20E16258675A500FA57A0 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */; };
 		CFE8B77E256EB10200F43917 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8B77D256EB10200F43917 /* ProfileViewController.swift */; };
+		CFF75837257D17AF006E8CDB /* MyTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF75836257D17AF006E8CDB /* MyTabBar.swift */; };
 		CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFA13132577C58C00039009 /* ForgotPassViewController.swift */; };
 		CFFA1327257801DD00039009 /* ChangePassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFA1326257801DD00039009 /* ChangePassViewController.swift */; };
 		EAAAD5740557034D5AE490D2 /* Pods_Bookaholic_BookaholicUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9B4081A5CDC11BDB696919 /* Pods_Bookaholic_BookaholicUITests.framework */; };
@@ -59,6 +63,8 @@
 		CF2E846B257047F6004F4B02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CF417A9C2566DBDC00B74EBE /* FavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavViewController.swift; sourceTree = "<group>"; };
 		CF417AA12566DBF200B74EBE /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpDateBookViewController.swift; sourceTree = "<group>"; };
+		CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookViewController.swift; sourceTree = "<group>"; };
 		CF6A9F742563F0FF00EAE34F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CF754C11255C1D4C00ED9DA6 /* Bookaholic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookaholic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF754C14255C1D4C00ED9DA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,7 +84,9 @@
 		CF7A094F255C2B0000848CC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7AAA8C2571203A00827347 /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		CF8CB8B72564223300C55619 /* LibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibViewController.swift; sourceTree = "<group>"; };
+		CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		CFE8B77D256EB10200F43917 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CFF75836257D17AF006E8CDB /* MyTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBar.swift; sourceTree = "<group>"; };
 		CFFA13132577C58C00039009 /* ForgotPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassViewController.swift; sourceTree = "<group>"; };
 		CFFA1326257801DD00039009 /* ChangePassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassViewController.swift; sourceTree = "<group>"; };
 		CFFA19A4122B2E52A7C6B3B4 /* Pods-Bookaholic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookaholic.release.xcconfig"; path = "Target Support Files/Pods-Bookaholic/Pods-Bookaholic.release.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +177,10 @@
 				CF7AAA8C2571203A00827347 /* HomeCVC.swift */,
 				CFFA13132577C58C00039009 /* ForgotPassViewController.swift */,
 				CFFA1326257801DD00039009 /* ChangePassViewController.swift */,
+				CFF75836257D17AF006E8CDB /* MyTabBar.swift */,
+				CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */,
+				CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */,
+				CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */,
 			);
 			path = Bookaholic;
 			sourceTree = "<group>";
@@ -445,8 +457,12 @@
 				CFFA1327257801DD00039009 /* ChangePassViewController.swift in Sources */,
 				CF754C15255C1D4C00ED9DA6 /* AppDelegate.swift in Sources */,
 				CF754C1F255C1D4C00ED9DA6 /* Bookaholic.xcdatamodeld in Sources */,
+				CFD20E16258675A500FA57A0 /* HomeTableViewCell.swift in Sources */,
 				CF6A9F752563F0FF00EAE34F /* RegisterViewController.swift in Sources */,
 				CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */,
+				CFF75837257D17AF006E8CDB /* MyTabBar.swift in Sources */,
+				CF5FA281257FE5D0006BD81E /* AddBookViewController.swift in Sources */,
+				CF5E6E342580E92F000CBA0B /* UpDateBookViewController.swift in Sources */,
 				CF754C17255C1D4C00ED9DA6 /* SceneDelegate.swift in Sources */,
 				CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */,
 				CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */,

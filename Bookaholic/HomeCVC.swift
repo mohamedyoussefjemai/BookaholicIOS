@@ -9,6 +9,7 @@ import UIKit
 
 class HomeCVC: UICollectionViewCell {
     
+    @IBOutlet weak var catname: UILabel!
     @IBOutlet weak var catimage: UIImageView!
     @IBOutlet weak var bookimage: UIImageView!
 }

@@ -9,6 +9,7 @@ import UIKit
 import Alamofire
 class ProfileViewController: UIViewController {
 
+   
     @IBOutlet weak var upAddress: UITextField!
     @IBOutlet weak var upPhone: UITextField!
     @IBOutlet weak var upEmail: UITextField!
@@ -23,6 +24,7 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var tfAddress: UILabel!
     
+    
     var bookName:[String] = []
     var category:[String] = []
     
@@ -31,10 +33,12 @@ class ProfileViewController: UIViewController {
     var codeverif = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(mail!)
+//        let tabbar = tabBarController as! MyTabBar
+//        mail = tabbar.mailtabar
+        mail = UserDefaults.standard.string(forKey: "Email")
+        userID = UserDefaults.standard.integer(forKey: "UserID")
+        
         self.tfEmail.text = mail!
-       
-        print("----->",tfEmail.text!)
         self.profile()
     }
     
@@ -61,13 +65,10 @@ class ProfileViewController: UIViewController {
                                  
                                     let jsonArray = json!
                                     print("jSONARRAY ===",jsonArray)
-                                  
-                                    
                                     if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
-                                        self.userID = list[0]["id"]!! as? Int
-                                        print("userID =====>",self.userID)
-                self.tfPhone.text = list[0]["phone"]!! as? String
-                
+                                       // self.userID = list[0]["id"]!! as? Int
+                 let tel = list[0]["phone"]!! as? Int
+                self.tfPhone.text = String(tel!)
                 self.tfUserName.text = list[0]["username"]!! as? String
                 self.tfAddress.text = list[0]["address"]!! as? String
                                      
@@ -118,8 +119,12 @@ class ProfileViewController: UIViewController {
                                 if let data = response.data {
                                     let json = String(data: data, encoding: String.Encoding.utf8)
                                     print(json!)
+                                    UserDefaults.standard.removeObject(forKey: "Email")
+                                    UserDefaults.standard.set(self.upEmail.text, forKey: "Email")
                                     self.tfEmail.text = self.upEmail.text
+                                    
                                     self.upEmail.text = ""
+                                   
                                     }
                     
                                  
@@ -172,6 +177,7 @@ class ProfileViewController: UIViewController {
                                     print(json!)
                                     self.tfAddress.text = self.upAddress.text
                                     self.upAddress.text = ""
+                                   
                                     }
                                
                                  
@@ -190,61 +196,52 @@ class ProfileViewController: UIViewController {
       
     }
     
+    @IBAction func goToLogin(){
+        UserDefaults.standard.removeObject(forKey: "Email")
+        UserDefaults.standard.removeObject(forKey: "Password")
+        UserDefaults.standard.removeObject(forKey: "UserID")
+
+        //performSegue(withIdentifier: "logout", sender: self)
+        let vc=storyboard?.instantiateViewController(identifier: "login_VC")as! LoginViewController
+        present(vc, animated: true)
+    }
+    
    @IBAction func goToForgotPass(){
         let vc=storyboard?.instantiateViewController(identifier: "forgot")as! ForgotPassViewController
         present(vc, animated: true)
         
     }
     
-    @IBAction func lib(){
-       // self.library()
-        //print("tableau = ",bookName)
-        performSegue(withIdentifier: "pro_lib", sender: userID)
-       
-            
-
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let userID = sender as! Int
-        let destination = segue.destination as! LibViewController
-        destination.id = userID
-       
-    }
+//    @IBAction func lib(){
+//        performSegue(withIdentifier: "pro_lib", sender: userID)
+//     
+//    }
+//    
+//    @IBAction func post(){
+//        performSegue(withIdentifier: "pro_post", sender: userID)
+//          }
     
-    ///////////////////
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let userID = sender as! Int
+//        if(segue.identifier == "pro_lib"){
+//            let destination = segue.destination as! LibViewController
+//           destination.id = userID
+//        }
+//        if(segue.identifier == "pro_post"){
+//            let destination = segue.destination as! PostViewController
+//           destination.id = userID
+//        }
+//     
+//    }
+   
+    
     
     func randomString(length: Int) -> String {
       let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       return String((0..<length).map{ _ in letters.randomElement()! })
     }
 
-    @IBAction func changePass(){
-     let code = randomString(length: 6)
-        print(code)
-       self.codeverif = code
-        let params = ["to":tfEmail.text!,
-                      "subject":"Change password",
-                      "text":"this your code : "+code+" please write it in your phone "] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/users/forgot"
-        AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
-        response in
-          switch response.result {
-                        case .success:
-                            print(response)
-                            if let data = response.data {
-                                let json = String(data: data, encoding: String.Encoding.utf8)
-                                print(json!)
-                                }
-                
-                            break
-                        case .failure(let error):
-                            
-                            print(error)
-                        }
-        }
-    
-           }
-    ///////
+  
    
     
     }

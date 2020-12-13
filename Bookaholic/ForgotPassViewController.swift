@@ -9,7 +9,8 @@ import UIKit
 import Alamofire
 class ForgotPassViewController: UIViewController {
 
-   
+    var iconClick = true
+    @IBOutlet weak var eye: UIButton!
     @IBOutlet weak var tfcode: UITextField!
     @IBOutlet weak var btnpass: UIButton!
     @IBOutlet weak var btncode: UIButton!
@@ -21,10 +22,14 @@ class ForgotPassViewController: UIViewController {
     var codeverif = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        eye.isHidden = true
         self.tfcode.isHidden = true
         self.pass.isHidden = true
         self.confirmpass.isHidden = true
+        self.btnpass.backgroundColor = UIColor.white
+        self.btncode.backgroundColor = UIColor.white
+        self.confirmpass.isSecureTextEntry = true
     }
     
     
@@ -52,6 +57,8 @@ class ForgotPassViewController: UIViewController {
                                 let json = String(data: data, encoding: String.Encoding.utf8)
                                 print(json!)
                                 self.tfcode.isEnabled = true
+                            
+                                self.btncode.backgroundColor = #colorLiteral(red: 0.9464210868, green: 0.3636219501, blue: 0.2471969128, alpha: 1)
                                 self.tfcode.isHidden = false
                                 self.btncode.isEnabled = true
                                 self.btncode.setTitle("Verif", for: UIControl.State.normal)
@@ -78,7 +85,9 @@ class ForgotPassViewController: UIViewController {
             self.btnpass.isEnabled = true
             self.confirmpass.isEnabled = true
             self.pass.isHidden = false
+            self.eye.isHidden = false
             self.confirmpass.isHidden = false
+            self.btnpass.backgroundColor = #colorLiteral(red: 0.9464210868, green: 0.3636219501, blue: 0.2471969128, alpha: 1)
             self.btnpass.setTitle("Change Password", for: UIControl.State.normal)
         }
         else{
@@ -146,4 +155,26 @@ class ForgotPassViewController: UIViewController {
         alert.addAction(action)
         self.present(alert, animated: true)
     }
+    @IBAction func btnPasswordVisiblityClicked( sender: Any) {
+        (sender as! UIButton).isSelected = !(sender as! UIButton).isSelected
+        if (sender as! UIButton).isSelected {
+            self.pass.isSecureTextEntry = false
+            eye.setImage(UIImage(systemName: "eye"), for: .normal)
+        } else {
+            self.pass.isSecureTextEntry = true
+            eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        }
+    }
+    
+    @IBAction func iconAction(sender: AnyObject) {
+            if(iconClick == true) {
+                pass.isSecureTextEntry = false
+                eye.setImage(UIImage(systemName:"@eye"), for: .normal)
+              } else {
+                pass.isSecureTextEntry = true
+                eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+            }
+
+            iconClick = !iconClick
+        }
 }

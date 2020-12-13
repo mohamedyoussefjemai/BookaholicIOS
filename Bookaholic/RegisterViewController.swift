@@ -8,7 +8,8 @@
 import UIKit
 import Alamofire
 class RegisterViewController: UIViewController {
-
+    var iconClick = true
+    @IBOutlet weak var eye: UIButton!
     @IBOutlet weak var tfPhone: UITextField!
     @IBOutlet weak var tfAddress: UITextField!
     @IBOutlet weak var tfPass: UITextField!
@@ -17,7 +18,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var tfName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
        
     }
     
@@ -47,7 +48,7 @@ class RegisterViewController: UIViewController {
                                 let json = String(data: data, encoding: String.Encoding.utf8)
                             
                                 print(json!)
-                                
+                                self.goToLogin()
                                
                                 }
                   
@@ -60,6 +61,28 @@ class RegisterViewController: UIViewController {
 
 
 }
+    @IBAction func btnPasswordVisiblityClicked( sender: Any) {
+        (sender as! UIButton).isSelected = !(sender as! UIButton).isSelected
+        if (sender as! UIButton).isSelected {
+            self.tfPass.isSecureTextEntry = false
+            eye.setImage(UIImage(systemName: "eye"), for: .normal)
+        } else {
+            self.tfPass.isSecureTextEntry = true
+            eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        }
+    }
+    
+    @IBAction func iconAction(sender: AnyObject) {
+            if(iconClick == true) {
+                tfPass.isSecureTextEntry = false
+                eye.setImage(UIImage(systemName:"@eye"), for: .normal)
+              } else {
+                tfPass.isSecureTextEntry = true
+                eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+            }
+
+            iconClick = !iconClick
+        }
     
     func promptAction(promptTitle: String, promptText: String){
         
