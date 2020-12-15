@@ -82,7 +82,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
 //        let tabbar = tabBarController as! MyTabBar
 //        id = tabbar.userID
        id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.4:3000/books/post-book/"+String(id!)
+        let url = "http://192.168.1.6:3000/books/post-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
    

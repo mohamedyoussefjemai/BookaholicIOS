@@ -59,7 +59,7 @@ class LoginViewController: UIViewController{
         
         let params = ["email":tfEmail.text,
                       "password":tfPass.text] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/users/login"
+        let urlString = "http://192.168.1.6:3000/users/login"
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON { [self]
         response in
           switch response.result {
@@ -158,7 +158,7 @@ class LoginViewController: UIViewController{
     
    
      func user(){
-        let url = "http://192.168.1.4:3000/users/read-user-email/"+tfEmail.text!
+        let url = "http://192.168.1.6:3000/users/read-user-email/"+tfEmail.text!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
     //to get status code

@@ -75,7 +75,7 @@ class UpDateBookViewController: UIViewController {
                     "user" : String(user!),
                     "image":"image",
                     "username" : username!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/books/update-book/"+String(book_id!)
+        let urlString = "http://192.168.1.6:3000/books/update-book/"+String(book_id!)
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in

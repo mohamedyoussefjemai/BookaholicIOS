@@ -10,6 +10,7 @@ import Alamofire
 
 class LibViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
+    @IBOutlet weak var libpost: UISwitch!
     @IBOutlet weak var table: UITableView?
     var data = ["BookFair","London Review of Books","FairyTail","Moonlight"]
     
@@ -41,8 +42,17 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-       
+        libpost.isOn = false
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        libpost.isOn = false
+    }
+    @IBAction func libPost()
+    {
+        if libpost.isOn == true{
+            performSegue(withIdentifier: "libpost", sender: self)
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         print("did appear")
@@ -57,10 +67,10 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         bookid.removeAll()
         self.library()
     }
-    
+
     func library(){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.4:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.6:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -200,28 +210,30 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         return cell!
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination = segue.destination as! UINavigationController
-        let update = destination.topViewController as! UpDateBookViewController
-        update.bookname = bookname
-        update.auth = auth
-        update.cat = cat
-        update.lang = lang
-        update.prix = prix
-        update.vis = vis
-        update.stat = stat
-        update.book_id = book_id
-        update.image = image
+        if segue.identifier == "lib_update"{
+            let destination = segue.destination as! UINavigationController
+            let update = destination.topViewController as! UpDateBookViewController
+            update.bookname = bookname
+            update.auth = auth
+            update.cat = cat
+            update.lang = lang
+            update.prix = prix
+            update.vis = vis
+            update.stat = stat
+            update.book_id = book_id
+            update.image = image
+        }
+           
+            
         
+      
     }
     
     func deleteBook(index: Int){
         let bid = bookid[index]
-        let url = "http://192.168.1.4:3000/books/delete-book/"+String(bid)
+        let url = "http://192.168.1.6:3000/books/delete-book/"+String(bid)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
                do {

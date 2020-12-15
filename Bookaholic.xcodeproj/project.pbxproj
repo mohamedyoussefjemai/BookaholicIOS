@@ -27,6 +27,8 @@
 		CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A094F255C2B0000848CC1 /* LoginViewController.swift */; };
 		CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7AAA8C2571203A00827347 /* HomeCVC.swift */; };
 		CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8CB8B72564223300C55619 /* LibViewController.swift */; };
+		CFC894712587C16800C821F9 /* ShowUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC894702587C16800C821F9 /* ShowUserViewController.swift */; };
+		CFC894762587C19B00C821F9 /* ShowBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC894752587C19B00C821F9 /* ShowBookViewController.swift */; };
 		CFD20E16258675A500FA57A0 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */; };
 		CFE8B77E256EB10200F43917 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE8B77D256EB10200F43917 /* ProfileViewController.swift */; };
 		CFF75837257D17AF006E8CDB /* MyTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF75836257D17AF006E8CDB /* MyTabBar.swift */; };
@@ -84,6 +86,8 @@
 		CF7A094F255C2B0000848CC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7AAA8C2571203A00827347 /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		CF8CB8B72564223300C55619 /* LibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibViewController.swift; sourceTree = "<group>"; };
+		CFC894702587C16800C821F9 /* ShowUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUserViewController.swift; sourceTree = "<group>"; };
+		CFC894752587C19B00C821F9 /* ShowBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBookViewController.swift; sourceTree = "<group>"; };
 		CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		CFE8B77D256EB10200F43917 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CFF75836257D17AF006E8CDB /* MyTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBar.swift; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 				CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */,
 				CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */,
 				CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */,
+				CFC894702587C16800C821F9 /* ShowUserViewController.swift */,
+				CFC894752587C19B00C821F9 /* ShowBookViewController.swift */,
 			);
 			path = Bookaholic;
 			sourceTree = "<group>";
@@ -464,6 +470,8 @@
 				CF5FA281257FE5D0006BD81E /* AddBookViewController.swift in Sources */,
 				CF5E6E342580E92F000CBA0B /* UpDateBookViewController.swift in Sources */,
 				CF754C17255C1D4C00ED9DA6 /* SceneDelegate.swift in Sources */,
+				CFC894712587C16800C821F9 /* ShowUserViewController.swift in Sources */,
+				CFC894762587C19B00C821F9 /* ShowBookViewController.swift in Sources */,
 				CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */,
 				CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */,
 				CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */,

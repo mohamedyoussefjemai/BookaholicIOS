@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController {
     
     
     @IBAction func profile(){
-    let url = "http://192.168.1.4:3000/users/read-user-email/"+mail!
+    let url = "http://192.168.1.6:3000/users/read-user-email/"+mail!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
    
@@ -108,7 +108,7 @@ class ProfileViewController: UIViewController {
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["email":upEmail.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/users/update-user-email/"+String(self.userID!)
+        let urlString = "http://192.168.1.6:3000/users/update-user-email/"+String(self.userID!)
         print(String(self.userID!))
         print(tfEmail.text!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
@@ -140,7 +140,7 @@ class ProfileViewController: UIViewController {
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["phone":upPhone.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/users/update-user-phone/"+String(self.userID!)
+        let urlString = "http://192.168.1.6:3000/users/update-user-phone/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -166,7 +166,7 @@ class ProfileViewController: UIViewController {
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["address":upAddress.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.4:3000/users/update-user-address/"+String(self.userID!)
+        let urlString = "http://192.168.1.6:3000/users/update-user-address/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {

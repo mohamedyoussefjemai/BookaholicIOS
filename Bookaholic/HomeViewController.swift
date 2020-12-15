@@ -27,16 +27,16 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     
         let params = ["title":title,
                       "author" : author,
-                            "price" : price,
-                            "category": category,
-                            "visible" : String(visible),
-                          "language" : language,
-                          "status" : status,
-                          "user" : String(user),
-                         "image":"image",
-                          "book":String(bookid),
-                          "username" : username] as? Dictionary<String, String>
-              let urlString = "http://192.168.1.4:3000/favoris/add-favoris"
+                      "price" : price,
+                      "category": category,
+                      "visible" : String(visible),
+                      "language" : language,
+                      "status" : status,
+                      "user" : String(user),
+                      "image":"image",
+                      "book":String(bookid),
+                      "username" : username] as? Dictionary<String, String>
+              let urlString = "http://192.168.1.6:3000/favoris/add-favoris"
               let headers :HTTPHeaders = ["Content-Type": "application/json"]
               AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
               response in
@@ -69,8 +69,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     var userName:[String] = []
     var bookid : [Int]=[]
     var bookImage : [UIImage]=[]
-   
-    
+    var userbookid : [Int]=[]
+    var favbID : [Int]=[]
     
     var bookimage: UIImageView?
     var bookname: String?
@@ -82,6 +82,15 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     var vis : Int?
     var book_id : Int?
     var id : Int!
+    
+    var bname: String?
+    var bauth: String?
+    var bcat: String?
+    var bstat: String?
+    var blang : String?
+    var bprix : Int?
+    var busername : String?
+    var buserid : Int?
     @IBOutlet weak var collectionView1: UICollectionView!
     var catlist = [UIImage(named:"All"),
                    UIImage(named:"romance & new adult"),
@@ -109,11 +118,16 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                 UIImage(named:"Moonlight")]
     
     override func viewDidAppear(_ animated: Bool) {
+        favbID = []
         bookName = []
         category = []
         author = []
         price = []
+        getFav()
         Home()
+        
+       
+        
     }
     func tap(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
@@ -157,10 +171,10 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         bookid.removeAll()
         bookImage.removeAll()
         let categoryname = catanames[indexPath.row]
-        let url2 = "http://192.168.1.4:3000/books/read-book-category/"+categoryname
+        let url2 = "http://192.168.1.6:3000/books/read-book-category/"+categoryname
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url2, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-            switch response.result {
+            switch response.result {				
                           case .success:
                               print(response)
                               if let data = response.data {
@@ -241,17 +255,45 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
             status.textColor = .red
         }
         price.text = String(self.price[indexPath.row])+" DT"
+        if favbID.contains(bookid[indexPath.row]) {
+        cell?.heart.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            
+        }
+        
         return cell!
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
-        tapGesture.numberOfTapsRequired = 2
-        bookimage?.isUserInteractionEnabled = true
-        bookimage?.addGestureRecognizer(tapGesture)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
+//        tapGesture.numberOfTapsRequired = 2
+//        bookimage?.isUserInteractionEnabled = true
+//        bookimage?.addGestureRecognizer(tapGesture)
+//    }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("row ",indexPath.row," selected")
+        bname = bookName[indexPath.row]
+        bauth = author [indexPath.row]
+        bcat = category [indexPath.row]
+        bstat = status [indexPath.row]
+        blang = language [indexPath.row]
+        bprix = price [indexPath.row]
+        busername = userName[indexPath.row]
+        buserid = userbookid[indexPath.row]
+        performSegue(withIdentifier: "showbook", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? ShowBookViewController
+        destination?.name = bname
+        destination?.author = bauth
+        destination?.category = bcat
+        destination?.state = bstat
+        destination?.lang = blang
+        destination?.price = bprix
+        destination?.username = busername
+        destination?.userID = buserid
+    }
     func Home(){
-        let url = "http://192.168.1.4:3000/books/"
+        let url = "http://192.168.1.6:3000/books/"
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -277,6 +319,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                 self.status.append(list[n]["status"]!! as! String)
                                 self.bookid.append(list[n]["id"] as! Int)
                                 self.userName.append(list[n]["username"]!! as! String)
+                                self.userbookid.append(list[n]["user"] as! Int)
                             }
                             self.table?.reloadData()
                                         }
@@ -327,6 +370,35 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         
         print("image doubel taaaaap")
     }
-
+    func getFav(){
+        let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
+        let url = "http://192.168.1.6:3000/favoris/read-favoris/"+String(id!)
+    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+                          case .success:
+                              if let data = response.data {
+                                  let json = String(data: data, encoding: String.Encoding.utf8)
+                                let data = json!.data(using: .utf8)!
+                               do {
+                                   let jsonArray = json!
+                           if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
+                            if list.isEmpty{
+                                print("empty fav")
+                            }else{
+                                for n in 0...list.count-1 {
+                                    self.favbID.append(list[n]["book"]!! as! Int)
+                                }
+                            }
+                            
+                           }
+                                }
+                                  }
+                              break
+                          case .failure(let error):
+                              print("erreur ==",error)
+                          }
+          }
+    }
     ///end
 }

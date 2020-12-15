@@ -94,7 +94,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     }
     func favorites(){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.4:3000/favoris/read-favoris/"+String(id!)
+        let url = "http://192.168.1.6:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -109,22 +109,26 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
                                     print("jSONARRAY ===",jsonArray)
                                   
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
-                            
-                            for n in 0...list.count-1 {
-                                print("booook ===== ",list[n]["title"]!!)
-                                self.bookname.append(list[n]["title"]!! as! String)
-                                self.category.append(list[n]["category"]!! as! String)
-                                self.author.append(list[n]["author"]!! as! String)
-                                self.price.append(list[n]["price"] as! Int)
-                                self.language.append(list[n]["language"]!! as! String)
-                                self.visible.append(list[n]["visible"] as! Int)
-                                self.status.append(list[n]["status"]!! as! String)
-                                self.bookid.append(list[n]["book"] as! Int)
-                                self.images.append(list[n]["image"]!! as! String)
-                                self.userName.append(list[n]["username"]!! as! String)
-                                
-                                
+                            if list.isEmpty{
+                                print("fav is empty")
+                            }else{
+                                for n in 0...list.count-1 {
+                                    print("booook ===== ",list[n]["title"]!!)
+                                    self.bookname.append(list[n]["title"]!! as! String)
+                                    self.category.append(list[n]["category"]!! as! String)
+                                    self.author.append(list[n]["author"]!! as! String)
+                                    self.price.append(list[n]["price"] as! Int)
+                                    self.language.append(list[n]["language"]!! as! String)
+                                    self.visible.append(list[n]["visible"] as! Int)
+                                    self.status.append(list[n]["status"]!! as! String)
+                                    self.bookid.append(list[n]["book"] as! Int)
+                                    self.images.append(list[n]["image"]!! as! String)
+                                    self.userName.append(list[n]["username"]!! as! String)
+                                    
+                                    
+                                }
                             }
+                            
                             self.table?.reloadData()
                                         }
                                 }
@@ -151,7 +155,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     func deleteBook(index: Int){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
         let bid = bookid[index]
-        let url = "http://192.168.1.4:3000/favoris/delete-favoris/"+String(id)+"/"+String(bid)
+        let url = "http://192.168.1.6:3000/favoris/delete-favoris/"+String(id)+"/"+String(bid)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
                do {
