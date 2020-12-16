@@ -43,7 +43,10 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         libpost.isOn = false
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.edit, target: self, action: #selector(goPosts))
+    }
+    @objc func goPosts(){
+        performSegue(withIdentifier: "libpost", sender: self)
     }
     override func viewDidDisappear(_ animated: Bool) {
         libpost.isOn = false
@@ -85,27 +88,31 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
                                     print("jSONARRAY ===",jsonArray)
                                   
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
-                            
-                            for n in 0...list.count-1 {
-                                print("booook ===== ",list[n]["title"]!!)
-                                self.bookName.append(list[n]["title"]!! as! String)
-                                self.category.append(list[n]["category"]!! as! String)
-                                self.author.append(list[n]["author"]!! as! String)
-                                self.price.append(list[n]["price"] as! Int)
-                                self.language.append(list[n]["language"]!! as! String)
-                                self.visible.append(list[n]["visible"] as! Int)
-                                self.status.append(list[n]["status"]!! as! String)
-                                self.bookid.append(list[n]["id"] as! Int)
-                                self.images.append(list[n]["image"]!! as! String)
-                                self.userName.append(list[n]["username"]!! as! String)
-                                
-                                if(list[n]["visible"]!! as! Int == 1){
-                                self.eye.append("visible_eye")
-                                }
-                                else{
-                                    self.eye.append("invisible")
+                            if list.isEmpty {
+                                print("Library is empty")
+                            }else{
+                                for n in 0...list.count-1 {
+                                    print("booook ===== ",list[n]["title"]!!)
+                                    self.bookName.append(list[n]["title"]!! as! String)
+                                    self.category.append(list[n]["category"]!! as! String)
+                                    self.author.append(list[n]["author"]!! as! String)
+                                    self.price.append(list[n]["price"] as! Int)
+                                    self.language.append(list[n]["language"]!! as! String)
+                                    self.visible.append(list[n]["visible"] as! Int)
+                                    self.status.append(list[n]["status"]!! as! String)
+                                    self.bookid.append(list[n]["id"] as! Int)
+                                    self.images.append(list[n]["image"]!! as! String)
+                                    self.userName.append(list[n]["username"]!! as! String)
+                                    
+                                    if(list[n]["visible"]!! as! Int == 1){
+                                    self.eye.append("visible_eye")
+                                    }
+                                    else{
+                                        self.eye.append("invisible")
+                                    }
                                 }
                             }
+                            
                             self.table?.reloadData()
                                         }
                                 }

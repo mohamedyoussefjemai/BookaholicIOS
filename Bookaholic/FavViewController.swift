@@ -21,7 +21,17 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     var userName:[String] = []
     var bookid : [Int]=[]
     var images : [String]=[]
+    var userbookid : [Int]=[]
     var id : Int!
+    
+    var bname: String?
+    var bauth: String?
+    var bcat: String?
+    var bstat: String?
+    var blang : String?
+    var bprix : Int?
+    var busername : String?
+    var buserid : Int?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bookname.count
@@ -71,6 +81,29 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             tableView.reloadData()
         }
        
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("row ",indexPath.row," selected")
+        bname = bookname[indexPath.row]
+        bauth = author [indexPath.row]
+        bcat = category [indexPath.row]
+        bstat = status [indexPath.row]
+        blang = language [indexPath.row]
+        bprix = price [indexPath.row]
+        busername = userName[indexPath.row]
+       // buserid = userbookid[indexPath.row]
+        performSegue(withIdentifier: "showbook", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as? ShowBookViewController
+        destination?.name = bname
+        destination?.author = bauth
+        destination?.category = bcat
+        destination?.state = bstat
+        destination?.lang = blang
+        destination?.price = bprix
+        destination?.username = busername
+       // destination?.userID = buserid
     }
     override func viewDidLoad() {
         super.viewDidLoad()

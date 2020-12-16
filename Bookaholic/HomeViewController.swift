@@ -105,27 +105,30 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                    UIImage(named:"art music & cinema"),
                    UIImage(named:"humor"),
                    UIImage(named:"police & thrillers"),
-                   UIImage(named:"Religion and spirituality"),
+                   UIImage(named:"Religion & spirituality"),
                    UIImage(named:"school"),
                    UIImage(named:"sport & leisure"),
                    UIImage(named:"theater"),
                    UIImage(named:"tourism & travel")]
                   
-    var catanames = ["All","romance & new adult", "adventure", "literature","comic & mangas","Personal development","Health & cooking","History","youth","social Sciences","art music & cinema","humor","police & thrillers","Religion and spirituality","school","sport & leisure","theater","tourism & travel"]
+    var catanames = ["All","romance & new adult", "adventure", "literature","comic & mangas","Personal development","Health & cooking","History","youth","social Sciences","art music & cinema","humor","police & thrillers","Religion & spirituality","school","sport & leisure","theater","tourism & travel"]
     var data = [UIImage(named:"BookFair"),
                 UIImage(named:"London Review of Books"),
                 UIImage(named:"FairyTail"),
                 UIImage(named:"Moonlight")]
     
+    override func viewWillAppear(_ animated: Bool) {
+       // getFav()
+       // print("fav ids = ",favbID)
+    }
     override func viewDidAppear(_ animated: Bool) {
-        favbID = []
+        print("home is here")
         bookName = []
         category = []
         author = []
         price = []
-        getFav()
         Home()
-        
+        table.reloadData()
        
         
     }
@@ -170,8 +173,38 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         userName.removeAll()
         bookid.removeAll()
         bookImage.removeAll()
-        let categoryname = catanames[indexPath.row]
-        let url2 = "http://192.168.1.6:3000/books/read-book-category/"+categoryname
+        var categoryname = catanames[indexPath.row]
+        switch categoryname{
+        case "romance & new adult":
+            categoryname = "romance"
+        case "comic & mangas":
+            categoryname = "mangas"
+        case "Personal development":
+            categoryname = "devper"
+        case "Health & cooking":
+            categoryname = "health"
+        case "social Sciences":
+            categoryname = "social"
+        case "art music & cinema":
+            categoryname = "art"
+        case "police & thrillers":
+            categoryname = "police"
+        case "Religion & spirituality":
+            categoryname = "religion"
+        case "sport & leisure":
+            categoryname = "sport"
+        case "tourism & travel":
+            categoryname = "travel"
+        default:
+            categoryname = catanames[indexPath.row]
+            
+        }
+        var url2 = "test"
+        if categoryname == "All"{
+             url2 = "http://192.168.1.6:3000/books/"
+        }else{
+       url2 = "http://192.168.1.6:3000/books/read-book-category/"+categoryname
+        }
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url2, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {				
@@ -257,9 +290,9 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         price.text = String(self.price[indexPath.row])+" DT"
         if favbID.contains(bookid[indexPath.row]) {
         cell?.heart.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            
+        }else{
+            cell?.heart.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        
         return cell!
     }
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -293,23 +326,24 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         destination?.userID = buserid
     }
     func Home(){
+        getFav()
         let url = "http://192.168.1.6:3000/books/"
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
                           case .success:
-                              print(response)
+                             // print(response)
                               if let data = response.data {
                                   let json = String(data: data, encoding: String.Encoding.utf8)
                               
                                 let data = json!.data(using: .utf8)!
                                do {
                                    let jsonArray = json!
-                                    print("jSONARRAY ===",jsonArray)
+                                    //print("jSONARRAY ===",jsonArray)
                                   
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                             for n in 0...list.count-1 {
-                                print("booook ===== ",list[n]["title"]!!)
+                               // print("booook ===== ",list[n]["title"]!!)
                                 self.bookName.append(list[n]["title"]!! as! String)
                                 self.category.append(list[n]["category"]!! as! String)
                                 self.author.append(list[n]["author"]!! as! String)
@@ -334,7 +368,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     func showToast(message: String) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2-75, y: self.view.frame.height - 150, width: 150, height: 40))
         toastLabel.textAlignment = .center
-        toastLabel.backgroundColor = UIColor.orange.withAlphaComponent(0.6)
+        toastLabel.backgroundColor = UIColor.green.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
         toastLabel.text = message
         toastLabel.alpha = 1.0
@@ -371,6 +405,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         print("image doubel taaaaap")
     }
     func getFav(){
+        favbID = []
+print("fav ids == ",favbID)
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
         let url = "http://192.168.1.6:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
@@ -393,6 +429,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                             
                            }
                                 }
+                                print("fav ids === ",self.favbID)
                                   }
                               break
                           case .failure(let error):

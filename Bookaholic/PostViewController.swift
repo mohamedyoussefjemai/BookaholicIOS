@@ -19,7 +19,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
     var price:[Int] = []
     var userName:[String] = []
     var bookid : [Int]=[]
-    
+    var eye:[String] = []
     var id : Int!
     
     
@@ -52,7 +52,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
         let bookname = contentView?.viewWithTag(1)as! UILabel
         let imageView = contentView?.viewWithTag(2)as! UIImageView
         let category = contentView?.viewWithTag(3)as! UILabel
-        //let price = contentView?.viewWithTag(5)as! UILabel
+        let eye = contentView?.viewWithTag(5)as! UIButton
        let author = contentView?.viewWithTag(4)as! UILabel
         let language = contentView?.viewWithTag(6)as! UILabel
         let username = contentView?.viewWithTag(7)as! UILabel
@@ -67,6 +67,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
         language.text = self.language[indexPath.row] as! String
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
+        eye.setImage(UIImage(named: self.eye[indexPath.row]), for: .normal)
         if(status.text == "new"){
             status.textColor = .green
         }else if(status.text == "satisfying"){
@@ -98,22 +99,32 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
                                do {
                                    let jsonArray = json!
                                     print("jSONARRAY ===",jsonArray)
-                                  
+                                
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
-                            
-                            for n in 0...list.count-1 {
-                                print("booook ===== ",list[n]["title"]!!)
-                                self.bookname.append(list[n]["title"]!! as! String)
-                                self.category.append(list[n]["category"]!! as! String)
-                                self.author.append(list[n]["author"]!! as! String)
-                                self.price.append(list[n]["price"] as! Int)
-                                self.language.append(list[n]["language"]!! as! String)
-                                self.visible.append(list[n]["visible"] as! Int)
-                                self.status.append(list[n]["status"]!! as! String)
-                                self.bookid.append(list[n]["id"] as! Int)
-                                self.userName.append(list[n]["username"]!! as! String)
-                                print("====hani jebt DATA ====")
+                            if list.isEmpty{
+                                print("posts is empty")
+                            }else{
+                                for n in 0...list.count-1 {
+                                    print("booook ===== ",list[n]["title"]!!)
+                                    self.bookname.append(list[n]["title"]!! as! String)
+                                    self.category.append(list[n]["category"]!! as! String)
+                                    self.author.append(list[n]["author"]!! as! String)
+                                    self.price.append(list[n]["price"] as! Int)
+                                    self.language.append(list[n]["language"]!! as! String)
+                                    self.visible.append(list[n]["visible"] as! Int)
+                                    self.status.append(list[n]["status"]!! as! String)
+                                    self.bookid.append(list[n]["id"] as! Int)
+                                    self.userName.append(list[n]["username"]!! as! String)
+                                    if(list[n]["visible"]!! as! Int == 1){
+                                    self.eye.append("visible_eye")
+                                    }
+                                    else{
+                                        self.eye.append("invisible")
+                                    }
+                                    
+                                }
                             }
+                            
                             
                                         }
                               
