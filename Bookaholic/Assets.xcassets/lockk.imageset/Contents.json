@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "kissclipart-blue-lock-icon-clipart-computer-icons-lock-blacksm-c9ed12af6d228707.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
