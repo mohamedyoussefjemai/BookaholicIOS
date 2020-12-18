@@ -7,7 +7,7 @@
 
 import UIKit
 import Alamofire
-class LoginViewController: UIViewController{
+class LoginViewController: UIViewController,UITextFieldDelegate{
     
     
     
@@ -29,12 +29,23 @@ class LoginViewController: UIViewController{
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        self.tfEmail.delegate = self
+        self.tfPass.delegate = self
         eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
 //        UserDefaults.standard.removeObject(forKey: "Email")
 //        UserDefaults.standard.removeObject(forKey: "Password")
 //        UserDefaults.standard.removeObject(forKey: "UserID")
 //        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        tfEmail.resignFirstResponder()
+        tfPass.resignFirstResponder()
+        return (true)
     }
     override func viewWillAppear(_ animated: Bool) {
         let Email = defaults.string(forKey: "Email")

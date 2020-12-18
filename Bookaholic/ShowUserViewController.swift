@@ -60,7 +60,17 @@ class ShowUserViewController: UIViewController {
                                     self.tfTrade.text = String(self.trade!)
                                     self.tfSale.text = String(self.sale!)
                                     self.tfName.text = self.name
-                                    self.image.image = UIImage(systemName: "person")
+                                    
+                                    
+                                    let  filenameImage = list[0]["image"]!! as? String ?? "0"
+                                    
+                                    if(filenameImage == "null")
+                    {
+                                        self.image!.image = UIImage(systemName: "person")
+                    }
+                                    
+                                    let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+filenameImage)!
+       self.image.loadImge(withUrl: url2)
                                        }
                                } catch let error as NSError {
                                    print(error)

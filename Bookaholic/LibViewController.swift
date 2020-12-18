@@ -14,6 +14,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     @IBOutlet weak var table: UITableView?
     var data = ["BookFair","London Review of Books","FairyTail","Moonlight"]
     
+    var BookImage: [String] = []
     var bookName:[String] = []
     var category:[String] = []
     var author:[String] = []
@@ -42,14 +43,14 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        libpost.isOn = false
+       // libpost.isOn = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.edit, target: self, action: #selector(goPosts))
     }
     @objc func goPosts(){
         performSegue(withIdentifier: "libpost", sender: self)
     }
     override func viewDidDisappear(_ animated: Bool) {
-        libpost.isOn = false
+        //libpost.isOn = false
     }
     @IBAction func libPost()
     {
@@ -68,6 +69,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         price.removeAll()
         userName.removeAll()
         bookid.removeAll()
+        BookImage.removeAll()
         self.library()
     }
 
@@ -101,9 +103,8 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
                                     self.visible.append(list[n]["visible"] as! Int)
                                     self.status.append(list[n]["status"]!! as! String)
                                     self.bookid.append(list[n]["id"] as! Int)
-                                    self.images.append(list[n]["image"]!! as! String)
+                                    self.BookImage.append(list[n]["image"]!! as! String)
                                     self.userName.append(list[n]["username"]!! as! String)
-                                    
                                     if(list[n]["visible"]!! as! Int == 1){
                                     self.eye.append("visible_eye")
                                     }
@@ -139,6 +140,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             price.remove(at: indexPath.row)
             bookid.remove(at: indexPath.row)
             images.remove(at: indexPath.row)
+            BookImage.remove(at: indexPath.row)
             eye.remove(at: indexPath.row)
             tableView.reloadData()
         }
@@ -156,7 +158,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             self.prix = self.price[indexPath.row]
             self.vis = self.visible[indexPath.row]
             self.book_id = self.bookid[indexPath.row]
-            self.image = self.images[indexPath.row]
+            self.image = self.BookImage[indexPath.row]
             self.performSegue(withIdentifier: "lib_update", sender: self)
         }
         return UISwipeActionsConfiguration(actions: [update])
@@ -198,7 +200,11 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         
         label.text = self.bookName[indexPath.row] as! String
         print(self.bookName[indexPath.row])
-        imageView.image = UIImage(named: "FairyTail")
+        
+        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+self.BookImage[indexPath.row])!
+        imageView.loadImge(withUrl: url2)
+        
+        
         label2.text = self.category[indexPath.row] as! String
         author.text = self.author[indexPath.row] as! String
         language.text = self.language[indexPath.row] as! String

@@ -27,7 +27,7 @@ class ShowBookViewController: UIViewController {
     var price : Int?
     var username : String?
     var userID : Int?
-    
+    var bookimage: String?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +38,9 @@ class ShowBookViewController: UIViewController {
         tfCateg.text = category
         tfPrice.text = String(price!)+" DT"
         btnusername.setTitle(username, for: .normal)
-        image.image = UIImage(named: "FairyTail")
+
+        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+bookimage!)!
+        image.loadImge(withUrl: url2)
     }
     @IBAction func showUser(){
         performSegue(withIdentifier: "showuser", sender: self)
@@ -50,6 +52,7 @@ class ShowBookViewController: UIViewController {
         let destination = segue.destination as? ShowUserViewController
         destination?.username = username
         destination?.userID = userID
+    
     }
 
 }

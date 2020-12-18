@@ -7,10 +7,11 @@
 
 import UIKit
 import Alamofire
-class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
+class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate,UINavigationControllerDelegate ,UIImagePickerControllerDelegate,UIPopoverControllerDelegate{
     
     
 
+    @IBOutlet weak var bookimage: UIImageView!
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var labprice: UILabel!
     @IBOutlet weak var tfprice: UITextField!
@@ -25,8 +26,74 @@ class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerVi
     var selectedValue : String!
     var visible : Int?
     var price : Int?
+    var userID: Int?
+
+    var filenameImage: String = ""
+    var imagePicker: UIImagePickerController!
+        var   fileName2 = String();
+        var url2: URL!
+        enum ImageSource {
+            case photoLibrary
+            case camera
+        }
+
+    @IBAction func btnSelectImage(_ sender: Any) {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+                           {
+                               let myPickerController = UIImagePickerController()
+                               myPickerController.delegate = self;
+                               myPickerController.sourceType = .photoLibrary
+                               self.present(myPickerController, animated: true, completion: nil)
+                           }
+        }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+             {
+                 if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                     self.bookimage.image = image
+                    uploadImage(file : String(userID!)+"_"+tftitle.text! )
+
+                    }
+
+                 
+                 self.dismiss(animated: true, completion: nil)
+             }
+
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+                   picker.dismiss(animated: true, completion: nil)
+               }
+
+        
+        func uploadImage(file : String)
+         {
+             let headers: HTTPHeaders = [
+                         /* "Authorization": "your_access_token",  in case you need authorization header */
+                         "Content-type": "multipart/form-data"
+                     ]
+
+            
+            
+            
+                         AF.upload(
+                             multipartFormData: { multipartFormData in
+                                 multipartFormData.append(self.bookimage.image!.jpegData(compressionQuality: 0.5)!, withName: "upload" , fileName: file+".jpeg", mimeType: "image/jpeg")
+                                
+                    
+                                self.filenameImage = file+".jpeg"
+                                print("imaaaaaaageeeeee =====> ",self.filenameImage)
+                         },
+                             to: "http://192.168.1.6:3000/upload/ios", method: .post , headers: headers)
+                             .response { resp in
+                                 print(resp)
+                         }
+         }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        userID = UserDefaults.standard.integer(forKey: "UserID")
+
         pickerData = ["romance & new adult", "adventure", "literature","comic & mangas","Personal development","Health & cooking","History","youth","social Sciences","art music & cinema","humor","police & thrillers","Religion and spirituality","school","sport & leisure","theater","tourism & travel"]
         sell.setOn(false, animated: true)
         picker.delegate = self
@@ -63,7 +130,7 @@ class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerVi
                     "language" : language,
                     "status" : status!,
                     "user" : String(user!),
-                    "image":"lien",
+                    "image":self.filenameImage,
                     "username" : username!] as? Dictionary<String, String>
         let urlString = "http://192.168.1.6:3000/books/add-book"
         let headers :HTTPHeaders = ["Content-Type": "application/json"]

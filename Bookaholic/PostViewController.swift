@@ -10,6 +10,7 @@ import Alamofire
 class PostViewController: UIViewController,UITableViewDataSource,UITableViewDelegate{
 
     @IBOutlet weak var table: UITableView!
+    var BookImage: [String] = []
     var bookname:[String] = []
     var category:[String] = []
     var author:[String] = []
@@ -67,6 +68,13 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
         language.text = self.language[indexPath.row] as! String
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
+        
+        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+self.BookImage[indexPath.row])!
+        imageView.loadImge(withUrl: url2)
+        
+        
+        
+        
         eye.setImage(UIImage(named: self.eye[indexPath.row]), for: .normal)
         if(status.text == "new"){
             status.textColor = .green
@@ -115,6 +123,9 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
                                     self.status.append(list[n]["status"]!! as! String)
                                     self.bookid.append(list[n]["id"] as! Int)
                                     self.userName.append(list[n]["username"]!! as! String)
+                                    
+                                    self.BookImage.append(list[n]["image"]!! as! String)
+
                                     if(list[n]["visible"]!! as! Int == 1){
                                     self.eye.append("visible_eye")
                                     }

@@ -36,6 +36,7 @@ class RegisterViewController: UIViewController {
                      "phone":phone,
                       "sale" : "0",
                       "trade" : "0",
+                      "image": "null",
                       "password" :pass] as? Dictionary<String, String>
         let urlString = "http://192.168.1.6:3000/users/add-user"
         let headers :HTTPHeaders = ["Content-Type": "application/json"]

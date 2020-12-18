@@ -7,7 +7,7 @@
 
 import UIKit
 import Alamofire
-class ProfileViewController: UIViewController, UINavigationControllerDelegate ,UIImagePickerControllerDelegate,UIPopoverControllerDelegate	 {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate ,UIImagePickerControllerDelegate,UIPopoverControllerDelegate{
     
    
     var usertf : UITextField!
@@ -31,6 +31,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     
     @IBOutlet weak var tfAddress: UILabel!
     
+   
     
     var bookName:[String] = []
     var category:[String] = []
@@ -38,7 +39,94 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     var mail : String?
     var userID: Int?
     var codeverif = ""
+    var filenameImage: String = ""
     var picker:UIImagePickerController?=UIImagePickerController()
+    var imagePicker: UIImagePickerController!
+        var   fileName2 = String();
+        var url2: URL!
+        enum ImageSource {
+            case photoLibrary
+            case camera
+        }
+
+    @IBAction func btnSelectImage(_ sender: Any) {
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+                           {
+                               let myPickerController = UIImagePickerController()
+                               myPickerController.delegate = self;
+                               myPickerController.sourceType = .photoLibrary
+                               self.present(myPickerController, animated: true, completion: nil)
+                           }
+        }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+             {
+                 if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                     self.userImage.image = image
+                    uploadImage(file : String(userID!))
+                    ////
+                    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+                let params = ["image": filenameImage] as? Dictionary<String, String>
+                let urlString = "http://192.168.1.6:3000/users/update-user-image/"+String(self.userID!)
+                print(String(self.userID!))
+                    AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
+                    response in
+                      switch response.result {
+                                    case .success:
+                                        print(response)
+                                        if let data = response.data {
+                                            let json = String(data: data, encoding: String.Encoding.utf8)
+                                            print(json!)
+                                            }
+                                        break
+                                    case .failure(let error):
+                                        
+                                        print(error)
+                                    }
+                    }
+                    
+                    
+                    
+                 }else{
+                     debugPrint("Something went wrong")
+                 }
+                 self.dismiss(animated: true, completion: nil)
+             }
+
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+                   picker.dismiss(animated: true, completion: nil)
+               }
+
+        
+        func uploadImage(file : String)
+         {
+             let headers: HTTPHeaders = [
+                         /* "Authorization": "your_access_token",  in case you need authorization header */
+                         "Content-type": "multipart/form-data"
+                     ]
+
+            
+            
+            
+                         AF.upload(
+                             multipartFormData: { multipartFormData in
+                                 multipartFormData.append(self.userImage.image!.jpegData(compressionQuality: 0.5)!, withName: "upload" , fileName: file+".jpeg", mimeType: "image/jpeg")
+                                
+                    
+                                self.filenameImage = file+".jpeg"
+                                print("imaaaaaaageeeeee =====> ",self.filenameImage)
+                         },
+                             to: "http://192.168.1.6:3000/upload/ios", method: .post , headers: headers)
+                             .response { resp in
+                                 print(resp)
+                         }
+         }
+    
+    
+    
+    
+    
     
   
        
@@ -75,7 +163,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                     print("jSONARRAY ===",jsonArray)
                                     if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                                        // self.userID = list[0]["id"]!! as? Int
-                 let tel = list[0]["phone"]!! as? Int
+                 
+                                        let tel = list[0]["phone"]!! as? Int
                 self.tfPhone.text = String(tel!)
                 self.tfUserName.text = list[0]["username"]!! as? String
                 self.tfAddress.text = list[0]["address"]!! as? String
@@ -83,6 +172,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                         let trade = list[0]["trade"]!! as? Int
                                         self.tfSale.text = String(sale!)
                                         self.tfTrade.text = String(trade!)
+                                        self.filenameImage = list[0]["image"]!! as? String ?? "0"
+                                        
+                                        if(self.filenameImage == "null")
+                        {
+                                            self.userImage!.image = UIImage(systemName: "person")
+                        }
+                                        
+                                        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+self.filenameImage)!
+           self.userImage.loadImge(withUrl: url2)
+                                        
                                     }
                                 } catch let error as NSError {
                                     print(error)
@@ -135,19 +234,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
 
         self.present(image , animated: true , completion: nil)
     }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image  = info[UIImagePickerController.InfoKey.originalImage]as? UIImage{
-            userImage.image = image
-        }
-        else{
-            print("problem with the image")
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    ///
+
     @IBAction func changeEmail(){
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
@@ -281,7 +368,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       return String((0..<length).map{ _ in letters.randomElement()! })
     }
     func changeUsername(){
-      
+
+
+        
+        
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["username":usertf.text!] as? Dictionary<String, String>
         let urlString = "http://192.168.1.6:3000/users/update-user-username/"+String(self.userID!)
@@ -328,14 +418,22 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         usertf?.placeholder = "tap new username"
         
     }
-    
-    }
-    
-    
-    
-    
-    
-    
-    
 
+   
+        }
+
+
+extension UIImageView {
+    func loadImge(withUrl url:URL) {
+       DispatchQueue.global().async { [weak self] in
+           if let imageData = try? Data(contentsOf: url) {
+               if let image = UIImage(data: imageData) {
+                   DispatchQueue.main.async {
+                       self?.image = image
+                   }
+               }
+           }
+       }
+   }
+}
 

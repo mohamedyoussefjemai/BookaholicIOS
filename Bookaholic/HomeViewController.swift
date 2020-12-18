@@ -22,9 +22,10 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         let language = self.language[index]
         let visible = self.visible[index]
         let user = UserDefaults.standard.string(forKey: "UserID")!
-      //  let image = self.bookImage[indexPath.row]
+        let image = self.BookImage[index]
         let bookid = self.bookid[index]
     
+        
         let params = ["title":title,
                       "author" : author,
                       "price" : price,
@@ -33,7 +34,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                       "language" : language,
                       "status" : status,
                       "user" : String(user),
-                      "image":"image",
+                      "image":image,
                       "book":String(bookid),
                       "username" : username] as? Dictionary<String, String>
               let urlString = "http://192.168.1.6:3000/favoris/add-favoris"
@@ -59,6 +60,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     
     
     @IBOutlet weak var table: UITableView!
+
     var bookName:[String] = []
     var category:[String] = []
     var author:[String] = []
@@ -68,11 +70,10 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     var price:[Int] = []
     var userName:[String] = []
     var bookid : [Int]=[]
-    var bookImage : [UIImage]=[]
+    var BookImage: [String] = []
     var userbookid : [Int]=[]
     var favbID : [Int]=[]
     
-    var bookimage: UIImageView?
     var bookname: String?
     var auth: String?
     var cat: String?
@@ -91,6 +92,9 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     var bprix : Int?
     var busername : String?
     var buserid : Int?
+    var bbookimage: String?
+    
+    
     @IBOutlet weak var collectionView1: UICollectionView!
     var catlist = [UIImage(named:"All"),
                    UIImage(named:"romance & new adult"),
@@ -172,7 +176,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         price.removeAll()
         userName.removeAll()
         bookid.removeAll()
-        bookImage.removeAll()
+        BookImage.removeAll()
         var categoryname = catanames[indexPath.row]
         switch categoryname{
         case "romance & new adult":
@@ -233,6 +237,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                 self.status.append(list[n]["status"]!! as! String)
                                 self.bookid.append(list[n]["id"] as! Int)
                                 self.userName.append(list[n]["username"]!! as! String)
+                                self.BookImage.append(list[n]["image"]!! as! String)
+                                
                             }
                                 
                             }
@@ -257,7 +263,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         cell?.index = indexPath
         let contentView = cell?.contentView
         let label = contentView?.viewWithTag(1)as! UILabel
-        bookimage = contentView?.viewWithTag(2)as! UIImageView
+        let imageView = contentView?.viewWithTag(2)as! UIImageView
         let category = contentView?.viewWithTag(3)as! UILabel
         let author = contentView?.viewWithTag(4)as! UILabel
         let heart = contentView?.viewWithTag(5)as! UIButton
@@ -265,6 +271,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         let username = contentView?.viewWithTag(7)as! UILabel
         let status = contentView?.viewWithTag(8)as! UILabel
         let price = contentView?.viewWithTag(9)as! UILabel
+        
+        
         /// /// /// ///
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
 //        tapGesture.numberOfTapsRequired = 2
@@ -273,13 +281,21 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         
         ///////
         label.text = self.bookName[indexPath.row] as! String
-        print(self.bookName[indexPath.row])
-        bookimage!.image = UIImage(named: "FairyTail")
-        category.text = self.category[indexPath.row] as! String
+        
+        
+        
+
+        
+    category.text = self.category[indexPath.row] as! String
         author.text = self.author[indexPath.row] as! String
         language.text = self.language[indexPath.row] as! String
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
+        
+        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+self.BookImage[indexPath.row] )!
+        imageView.loadImge(withUrl: url2)
+        
+        
         if(status.text == "new"){
             status.textColor = .green
         }else if(status.text == "satisfying"){
@@ -293,7 +309,9 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         }else{
             cell?.heart.setImage(UIImage(systemName: "heart"), for: .normal)
         }
-        return cell!
+        
+       return cell!
+        
     }
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
@@ -312,6 +330,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         bprix = price [indexPath.row]
         busername = userName[indexPath.row]
         buserid = userbookid[indexPath.row]
+        bbookimage = BookImage[indexPath.row]
         performSegue(withIdentifier: "showbook", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -324,6 +343,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         destination?.price = bprix
         destination?.username = busername
         destination?.userID = buserid
+        destination?.bookimage = bbookimage
+
     }
     func Home(){
         getFav()
@@ -354,6 +375,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                 self.bookid.append(list[n]["id"] as! Int)
                                 self.userName.append(list[n]["username"]!! as! String)
                                 self.userbookid.append(list[n]["user"] as! Int)
+                                self.BookImage.append(list[n]["image"] as! String)
+                                print(self.BookImage)
                             }
                             self.table?.reloadData()
                                         }
@@ -408,6 +431,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         favbID = []
 print("fav ids == ",favbID)
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
+        print("id =================================>>>>>> ",id!)
         let url = "http://192.168.1.6:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -438,4 +462,5 @@ print("fav ids == ",favbID)
           }
     }
     ///end
+    
 }

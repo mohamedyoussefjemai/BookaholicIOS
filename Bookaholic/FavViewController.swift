@@ -11,6 +11,8 @@ import Alamofire
 class FavViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
    
     @IBOutlet weak var table: UITableView!
+    var BookImage: [String] = []
+
     var bookname: [String] = []
     var category:[String] = []
     var author:[String] = []
@@ -32,6 +34,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     var bprix : Int?
     var busername : String?
     var buserid : Int?
+    var bbookimage: String?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bookname.count
@@ -50,11 +53,14 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         let status = contentView?.viewWithTag(8)as! UILabel
         
         bookname.text = self.bookname[indexPath.row] as! String
-        imageView.image = UIImage(named: "FairyTail")
         category.text = self.category[indexPath.row] as! String
         author.text = self.author[indexPath.row] as! String
         language.text = self.language[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
+        
+        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+self.BookImage[indexPath.row])!
+        imageView.loadImge(withUrl: url2)
+        
         if(status.text == "new"){
             status.textColor = .green
         }else if(status.text == "satisfying"){
@@ -77,7 +83,8 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             visible.remove(at: indexPath.row)
             price.remove(at: indexPath.row)
             bookid.remove(at: indexPath.row)
-            images.remove(at: indexPath.row)
+            BookImage.remove(at: indexPath.row)
+
             tableView.reloadData()
         }
        
@@ -91,6 +98,8 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         blang = language [indexPath.row]
         bprix = price [indexPath.row]
         busername = userName[indexPath.row]
+        bbookimage = BookImage[indexPath.row]
+        
        // buserid = userbookid[indexPath.row]
         performSegue(withIdentifier: "showbook", sender: self)
     }
@@ -103,6 +112,8 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         destination?.lang = blang
         destination?.price = bprix
         destination?.username = busername
+        destination?.bookimage = bbookimage
+
        // destination?.userID = buserid
     }
     override func viewDidLoad() {
@@ -121,7 +132,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         price.removeAll()
         userName.removeAll()
         bookid.removeAll()
-        images.removeAll()
+        BookImage.removeAll()
         self.favorites()
         
     }
@@ -155,9 +166,8 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
                                     self.visible.append(list[n]["visible"] as! Int)
                                     self.status.append(list[n]["status"]!! as! String)
                                     self.bookid.append(list[n]["book"] as! Int)
-                                    self.images.append(list[n]["image"]!! as! String)
                                     self.userName.append(list[n]["username"]!! as! String)
-                                    
+                                    self.BookImage.append(list[n]["image"]!! as! String)
                                     
                                 }
                             }
