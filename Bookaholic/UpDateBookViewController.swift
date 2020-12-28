@@ -59,7 +59,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
              {
                  if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                      self.bookimage.image = image
-                    uploadImage(file : String(userID!)+"_"+tftitle.text! )
+                    uploadImage(file : String(userID!)+"_"+self.randomString(length: 16) )
 
                     }
 
@@ -180,7 +180,10 @@ self.bookimage.lodImage(withUrl: url2)
             vis = 0
         }
     }
-    
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
+    }
 }
 
 extension UIImageView {

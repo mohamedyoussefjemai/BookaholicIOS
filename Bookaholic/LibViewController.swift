@@ -43,21 +43,13 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        libpost.isOn = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.edit, target: self, action: #selector(goPosts))
     }
     @objc func goPosts(){
         performSegue(withIdentifier: "libpost", sender: self)
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        libpost.isOn = false
-    }
-    @IBAction func libPost()
-    {
-        if libpost.isOn == true{
-            performSegue(withIdentifier: "libpost", sender: self)
-        }
-    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         print("did appear")
         bookName.removeAll()
@@ -139,7 +131,6 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             visible.remove(at: indexPath.row)
             price.remove(at: indexPath.row)
             bookid.remove(at: indexPath.row)
-            images.remove(at: indexPath.row)
             BookImage.remove(at: indexPath.row)
             eye.remove(at: indexPath.row)
             tableView.reloadData()

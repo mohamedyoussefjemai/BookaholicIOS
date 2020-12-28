@@ -51,7 +51,7 @@ class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerVi
              {
                  if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                      self.bookimage.image = image
-                    uploadImage(file : String(userID!)+"_"+tftitle.text! )
+                    uploadImage(file : String(userID!)+"_"+self.randomString(length: 16) )
 
                     }
 
@@ -168,5 +168,8 @@ class AddBookViewController: UIViewController ,UIPickerViewDataSource,UIPickerVi
             visible = 0
         }
     }
-    
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
+    }
 }
