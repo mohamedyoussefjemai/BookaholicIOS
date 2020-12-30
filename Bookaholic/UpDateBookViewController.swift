@@ -59,7 +59,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
              {
                  if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                      self.bookimage.image = image
-                    uploadImage(file : String(userID!)+"_"+tftitle.text! )
+                    uploadImage(file : String(userID!)+"_"+self.randomString(length: 16) )
 
                     }
 
@@ -91,7 +91,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
                                 self.filenameImage = file+".jpeg"
                                 print("imaaaaaaageeeeee =====> ",self.filenameImage)
                          },
-                             to: "http://192.168.1.6:3000/upload/ios", method: .post , headers: headers)
+                             to: "http://192.168.1.2:3000/upload/ios", method: .post , headers: headers)
                              .response { resp in
                                  print(resp)
                          }
@@ -118,7 +118,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
             sell.setOn(false, animated: true)
             
         }
-        let url2 = URL(string: "http://192.168.1.6:3000/uploads/"+image!)!
+        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+image!)!
 self.bookimage.lodImage(withUrl: url2)
     }
     
@@ -147,7 +147,7 @@ self.bookimage.lodImage(withUrl: url2)
                     "user" : String(user!),
                     "image":self.filenameImage,
                     "username" : username!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.6:3000/books/update-book/"+String(book_id!)
+        let urlString = "http://192.168.1.2:3000/books/update-book/"+String(book_id!)
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in
@@ -180,7 +180,10 @@ self.bookimage.lodImage(withUrl: url2)
             vis = 0
         }
     }
-    
+    func randomString(length: Int) -> String {
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
+    }
 }
 
 extension UIImageView {

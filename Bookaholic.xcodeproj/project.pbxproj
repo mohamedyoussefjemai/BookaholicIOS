@@ -12,6 +12,10 @@
 		CF2E846C257047F6004F4B02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E846B257047F6004F4B02 /* HomeViewController.swift */; };
 		CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF417A9C2566DBDC00B74EBE /* FavViewController.swift */; };
 		CF417AA22566DBF200B74EBE /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF417AA12566DBF200B74EBE /* PostViewController.swift */; };
+		CF4B3A2A259B5ED100054B8E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B3A29259B5ED100054B8E /* MenuViewController.swift */; };
+		CF4B3A2F259B612F00054B8E /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B3A2E259B612F00054B8E /* ChatViewController.swift */; };
+		CF4B3A34259B614100054B8E /* TradesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B3A33259B614100054B8E /* TradesViewController.swift */; };
+		CF4B3A39259B615100054B8E /* SalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B3A38259B615100054B8E /* SalesViewController.swift */; };
 		CF5E6E342580E92F000CBA0B /* UpDateBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */; };
 		CF5FA281257FE5D0006BD81E /* AddBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */; };
 		CF6A9F752563F0FF00EAE34F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6A9F742563F0FF00EAE34F /* RegisterViewController.swift */; };
@@ -24,9 +28,15 @@
 		CF754C24255C1D4E00ED9DA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF754C22255C1D4E00ED9DA6 /* LaunchScreen.storyboard */; };
 		CF754C2F255C1D4F00ED9DA6 /* BookaholicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF754C2E255C1D4F00ED9DA6 /* BookaholicTests.swift */; };
 		CF754C3A255C1D4F00ED9DA6 /* BookaholicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF754C39255C1D4F00ED9DA6 /* BookaholicUITests.swift */; };
+		CF776D27259BA41B004DB9C8 /* TradeFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF776D26259BA41B004DB9C8 /* TradeFormViewController.swift */; };
+		CF776D2C259BA444004DB9C8 /* BuyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF776D2B259BA444004DB9C8 /* BuyFormViewController.swift */; };
+		CF776D31259BC4BA004DB9C8 /* TradeSendedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF776D30259BC4BA004DB9C8 /* TradeSendedViewController.swift */; };
+		CF776D36259BC4E1004DB9C8 /* TradeReceivedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF776D35259BC4E1004DB9C8 /* TradeReceivedViewController.swift */; };
 		CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7A094F255C2B0000848CC1 /* LoginViewController.swift */; };
 		CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7AAA8C2571203A00827347 /* HomeCVC.swift */; };
 		CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8CB8B72564223300C55619 /* LibViewController.swift */; };
+		CFAFD7A3259D00F9003948B2 /* BuyReqViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFD7A2259D00F9003948B2 /* BuyReqViewController.swift */; };
+		CFAFD7A8259D010B003948B2 /* SaleReqViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFD7A7259D010B003948B2 /* SaleReqViewController.swift */; };
 		CFC894712587C16800C821F9 /* ShowUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC894702587C16800C821F9 /* ShowUserViewController.swift */; };
 		CFC894762587C19B00C821F9 /* ShowBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC894752587C19B00C821F9 /* ShowBookViewController.swift */; };
 		CFD20E16258675A500FA57A0 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */; };
@@ -65,6 +75,10 @@
 		CF2E846B257047F6004F4B02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CF417A9C2566DBDC00B74EBE /* FavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavViewController.swift; sourceTree = "<group>"; };
 		CF417AA12566DBF200B74EBE /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		CF4B3A29259B5ED100054B8E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		CF4B3A2E259B612F00054B8E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		CF4B3A33259B614100054B8E /* TradesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradesViewController.swift; sourceTree = "<group>"; };
+		CF4B3A38259B615100054B8E /* SalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesViewController.swift; sourceTree = "<group>"; };
 		CF5E6E332580E92F000CBA0B /* UpDateBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpDateBookViewController.swift; sourceTree = "<group>"; };
 		CF5FA280257FE5CF006BD81E /* AddBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookViewController.swift; sourceTree = "<group>"; };
 		CF6A9F742563F0FF00EAE34F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -83,9 +97,15 @@
 		CF754C35255C1D4F00ED9DA6 /* BookaholicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookaholicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF754C39255C1D4F00ED9DA6 /* BookaholicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookaholicUITests.swift; sourceTree = "<group>"; };
 		CF754C3B255C1D4F00ED9DA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF776D26259BA41B004DB9C8 /* TradeFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeFormViewController.swift; sourceTree = "<group>"; };
+		CF776D2B259BA444004DB9C8 /* BuyFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyFormViewController.swift; sourceTree = "<group>"; };
+		CF776D30259BC4BA004DB9C8 /* TradeSendedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSendedViewController.swift; sourceTree = "<group>"; };
+		CF776D35259BC4E1004DB9C8 /* TradeReceivedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeReceivedViewController.swift; sourceTree = "<group>"; };
 		CF7A094F255C2B0000848CC1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7AAA8C2571203A00827347 /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		CF8CB8B72564223300C55619 /* LibViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibViewController.swift; sourceTree = "<group>"; };
+		CFAFD7A2259D00F9003948B2 /* BuyReqViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyReqViewController.swift; sourceTree = "<group>"; };
+		CFAFD7A7259D010B003948B2 /* SaleReqViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleReqViewController.swift; sourceTree = "<group>"; };
 		CFC894702587C16800C821F9 /* ShowUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUserViewController.swift; sourceTree = "<group>"; };
 		CFC894752587C19B00C821F9 /* ShowBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBookViewController.swift; sourceTree = "<group>"; };
 		CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +207,16 @@
 				CFD20E15258675A500FA57A0 /* HomeTableViewCell.swift */,
 				CFC894702587C16800C821F9 /* ShowUserViewController.swift */,
 				CFC894752587C19B00C821F9 /* ShowBookViewController.swift */,
+				CF4B3A29259B5ED100054B8E /* MenuViewController.swift */,
+				CF4B3A2E259B612F00054B8E /* ChatViewController.swift */,
+				CF4B3A33259B614100054B8E /* TradesViewController.swift */,
+				CF4B3A38259B615100054B8E /* SalesViewController.swift */,
+				CF776D26259BA41B004DB9C8 /* TradeFormViewController.swift */,
+				CF776D2B259BA444004DB9C8 /* BuyFormViewController.swift */,
+				CF776D30259BC4BA004DB9C8 /* TradeSendedViewController.swift */,
+				CF776D35259BC4E1004DB9C8 /* TradeReceivedViewController.swift */,
+				CFAFD7A7259D010B003948B2 /* SaleReqViewController.swift */,
+				CFAFD7A2259D00F9003948B2 /* BuyReqViewController.swift */,
 			);
 			path = Bookaholic;
 			sourceTree = "<group>";
@@ -459,23 +489,33 @@
 			files = (
 				CF417AA22566DBF200B74EBE /* PostViewController.swift in Sources */,
 				CF754C19255C1D4C00ED9DA6 /* ViewController.swift in Sources */,
+				CF4B3A2F259B612F00054B8E /* ChatViewController.swift in Sources */,
+				CF4B3A34259B614100054B8E /* TradesViewController.swift in Sources */,
 				CFE8B77E256EB10200F43917 /* ProfileViewController.swift in Sources */,
 				CFFA1327257801DD00039009 /* ChangePassViewController.swift in Sources */,
 				CF754C15255C1D4C00ED9DA6 /* AppDelegate.swift in Sources */,
+				CFAFD7A3259D00F9003948B2 /* BuyReqViewController.swift in Sources */,
 				CF754C1F255C1D4C00ED9DA6 /* Bookaholic.xcdatamodeld in Sources */,
 				CFD20E16258675A500FA57A0 /* HomeTableViewCell.swift in Sources */,
+				CF776D2C259BA444004DB9C8 /* BuyFormViewController.swift in Sources */,
 				CF6A9F752563F0FF00EAE34F /* RegisterViewController.swift in Sources */,
+				CFAFD7A8259D010B003948B2 /* SaleReqViewController.swift in Sources */,
 				CF7A0950255C2B0000848CC1 /* LoginViewController.swift in Sources */,
 				CFF75837257D17AF006E8CDB /* MyTabBar.swift in Sources */,
+				CF4B3A2A259B5ED100054B8E /* MenuViewController.swift in Sources */,
 				CF5FA281257FE5D0006BD81E /* AddBookViewController.swift in Sources */,
 				CF5E6E342580E92F000CBA0B /* UpDateBookViewController.swift in Sources */,
 				CF754C17255C1D4C00ED9DA6 /* SceneDelegate.swift in Sources */,
 				CFC894712587C16800C821F9 /* ShowUserViewController.swift in Sources */,
+				CF776D36259BC4E1004DB9C8 /* TradeReceivedViewController.swift in Sources */,
 				CFC894762587C19B00C821F9 /* ShowBookViewController.swift in Sources */,
 				CFFA13142577C58D00039009 /* ForgotPassViewController.swift in Sources */,
+				CF4B3A39259B615100054B8E /* SalesViewController.swift in Sources */,
 				CF417A9D2566DBDC00B74EBE /* FavViewController.swift in Sources */,
 				CF7AAA8D2571203A00827347 /* HomeCVC.swift in Sources */,
+				CF776D27259BA41B004DB9C8 /* TradeFormViewController.swift in Sources */,
 				CF8CB8B82564223300C55619 /* LibViewController.swift in Sources */,
+				CF776D31259BC4BA004DB9C8 /* TradeSendedViewController.swift in Sources */,
 				CF2E846C257047F6004F4B02 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

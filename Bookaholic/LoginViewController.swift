@@ -31,21 +31,13 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.tfEmail.delegate = self
-        self.tfPass.delegate = self
         eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        self.tfEmail.delegate = self
+                self.tfPass.delegate = self
 //        UserDefaults.standard.removeObject(forKey: "Email")
 //        UserDefaults.standard.removeObject(forKey: "Password")
 //        UserDefaults.standard.removeObject(forKey: "UserID")
 //        
-    }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        tfEmail.resignFirstResponder()
-        tfPass.resignFirstResponder()
-        return (true)
     }
     override func viewWillAppear(_ animated: Bool) {
         let Email = defaults.string(forKey: "Email")
@@ -67,10 +59,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
        
 //        UserDefaults.standard.set(tfEmail.text, forKey: "Email")
 //        UserDefaults.standard.set(tfPass, forKey: "Password")
-        
+//        
         let params = ["email":tfEmail.text,
                       "password":tfPass.text] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.6:3000/users/login"
+        let urlString = "http://192.168.1.2:3000/users/login"
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON { [self]
         response in
           switch response.result {
@@ -169,7 +161,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     
    
      func user(){
-        let url = "http://192.168.1.6:3000/users/read-user-email/"+tfEmail.text!
+        let url = "http://192.168.1.2:3000/users/read-user-email/"+tfEmail.text!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
     //to get status code
