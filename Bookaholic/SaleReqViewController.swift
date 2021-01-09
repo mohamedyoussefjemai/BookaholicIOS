@@ -56,7 +56,7 @@ class SaleReqViewController: UIViewController ,UITableViewDelegate,UITableViewDa
     }
     func saleReq(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/requests/read-sale-received/"+String(username!)
+        let url = "http://192.168.1.5:3000/requests/read-sale-received/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

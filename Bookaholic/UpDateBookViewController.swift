@@ -91,7 +91,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
                                 self.filenameImage = file+".jpeg"
                                 print("imaaaaaaageeeeee =====> ",self.filenameImage)
                          },
-                             to: "http://192.168.1.2:3000/upload/ios", method: .post , headers: headers)
+                             to: "http://192.168.1.5:3000/upload/ios", method: .post , headers: headers)
                              .response { resp in
                                  print(resp)
                          }
@@ -118,7 +118,7 @@ class UpDateBookViewController: UIViewController ,UINavigationControllerDelegate
             sell.setOn(false, animated: true)
             
         }
-        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+image!)!
+        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+image!)!
 self.bookimage.lodImage(withUrl: url2)
     }
     
@@ -147,7 +147,7 @@ self.bookimage.lodImage(withUrl: url2)
                     "user" : String(user!),
                     "image":self.filenameImage,
                     "username" : username!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/books/update-book/"+String(book_id!)
+        let urlString = "http://192.168.1.5:3000/books/update-book/"+String(book_id!)
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in

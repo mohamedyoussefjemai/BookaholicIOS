@@ -67,7 +67,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                     ////
                     let headers :HTTPHeaders = ["Content-Type": "application/json"]
                 let params = ["image": filenameImage] as? Dictionary<String, String>
-                let urlString = "http://192.168.1.2:3000/users/update-user-image/"+String(self.userID!)
+                let urlString = "http://192.168.1.5:3000/users/update-user-image/"+String(self.userID!)
                 print(String(self.userID!))
                     AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
                     response in
@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                 self.filenameImage = file+".jpeg"
                                 print("imaaaaaaageeeeee =====> ",self.filenameImage)
                          },
-                             to: "http://192.168.1.2:3000/upload/ios", method: .post , headers: headers)
+                             to: "http://192.168.1.5:3000/upload/ios", method: .post , headers: headers)
                              .response { resp in
                                  print(resp)
                          }
@@ -145,7 +145,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     }
     
     @IBAction func profile(){
-    let url = "http://192.168.1.2:3000/users/read-user-email/"+mail!
+    let url = "http://192.168.1.5:3000/users/read-user-email/"+mail!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
    
@@ -181,7 +181,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                             self.userImage!.image = UIImage(systemName: "person")
                         }
                                         
-                                        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+self.filenameImage)!
+                                        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.filenameImage)!
            self.userImage.loadImge(withUrl: url2)
                                         
                                     }
@@ -241,7 +241,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["email":upEmail.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/update-user-email/"+String(self.userID!)
+        let urlString = "http://192.168.1.5:3000/users/update-user-email/"+String(self.userID!)
         print(String(self.userID!))
         print(tfEmail.text!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
@@ -269,7 +269,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["phone":upPhone.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/update-user-phone/"+String(self.userID!)
+        let urlString = "http://192.168.1.5:3000/users/update-user-phone/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -295,7 +295,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["address":upAddress.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/update-user-address/"+String(self.userID!)
+        let urlString = "http://192.168.1.5:3000/users/update-user-address/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -330,11 +330,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         UserDefaults.standard.removeObject(forKey: "Password")
         UserDefaults.standard.removeObject(forKey: "UserID")
         UserDefaults.standard.removeObject(forKey: "UserName")
-
-
-        //performSegue(withIdentifier: "logout", sender: self)
-        let vc=storyboard?.instantiateViewController(identifier: "login_VC")as! LoginViewController
-        present(vc, animated: true)
+ performSegue(withIdentifier: "logout", sender: self)
+//        let vc=storyboard?.instantiateViewController(identifier: "login_VC")as! LoginViewController
+//        present(vc, animated: true)
     }
     
    @IBAction func goToForgotPass(){
@@ -343,27 +341,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         
     }
     
-//    @IBAction func lib(){
-//        performSegue(withIdentifier: "pro_lib", sender: userID)
-//     
-//    }
-//    
-//    @IBAction func post(){
-//        performSegue(withIdentifier: "pro_post", sender: userID)
-//          }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let userID = sender as! Int
-//        if(segue.identifier == "pro_lib"){
-//            let destination = segue.destination as! LibViewController
-//           destination.id = userID
-//        }
-//        if(segue.identifier == "pro_post"){
-//            let destination = segue.destination as! PostViewController
-//           destination.id = userID
-//        }
-//     
-//    }
+
    
     
     
@@ -378,7 +356,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["username":usertf.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/update-user-username/"+String(self.userID!)
+        let urlString = "http://192.168.1.5:3000/users/update-user-username/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {

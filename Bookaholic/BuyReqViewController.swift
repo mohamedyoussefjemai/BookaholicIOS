@@ -13,6 +13,7 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var table: UITableView!
     var to : [String]=[]
     var book : [String]=[]
+    var Etat : [String]=[]
     var price : [Int]=[]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +38,19 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         let to = contentView?.viewWithTag(1) as! UILabel
         let book = contentView?.viewWithTag(2) as! UILabel
         let price = contentView?.viewWithTag(3)as! UILabel
+        let etat = contentView?.viewWithTag(4)as! UILabel
             
         to.text = self.to[indexPath.row] as! String
         book.text = self.book[indexPath.row] as! String
         price.text = String(self.price[indexPath.row])+" DT"
+        etat.text = String(self.Etat[indexPath.row])
+        if(etat.text == "accepted"){
+            etat.textColor = .green
+        }else if(etat.text == "waiting"){
+            etat.textColor = .orange
+        }else{
+            etat.textColor = .red
+        }
         return cell!
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -52,7 +62,7 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     
     func buyReq(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/requests/read-sale-sended/"+String(username!)
+        let url = "http://192.168.1.5:3000/requests/read-sale-sended/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

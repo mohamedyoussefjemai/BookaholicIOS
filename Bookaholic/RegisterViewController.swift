@@ -38,7 +38,7 @@ class RegisterViewController: UIViewController {
                       "trade" : "0",
                       "image": "null",
                       "password" :pass] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/add-user"
+        let urlString = "http://192.168.1.5:3000/users/add-user"
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in

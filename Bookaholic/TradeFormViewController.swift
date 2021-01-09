@@ -31,27 +31,27 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
     @IBAction func showPrice()  {
         if switcher.isOn{
             TFprice.isHidden = false
+            
         }else{
             TFprice.isHidden = true
+            TFprice.text = "0"
         }
     }
     @IBAction func trade (){
-        let price = Int(TFprice.text ?? "0")
-        print("book name === ",bookname!)
-        print("sender  === ",usernameSender!)
-        print("receiver  === ",receiver!)
-        print("price === ",price!)
-        print("book selected ",selectedValue!)
-        
+       let price = Int(TFprice.text ?? "0")
+//        print("book name === ",bookname!)
+//        print("sender  === ",usernameSender!)
+//        print("receiver  === ",receiver!)
+//        print("price === ",price!)
+//        print("book selected ",selectedValue!)
         let params = ["title":bookname!,
                       "sender" :usernameSender! ,
                       "receiver" :receiver!,
                       "titlechange": selectedValue!,
-                      "price" :price!,
+                      "price" :String(price ?? 0),
                     "type" :"trade" ,
                     "etat" :"waiting"] as? Dictionary<String, String>
-        
-        let urlString = "http://192.168.1.2:3000/requests/add-request"
+        let urlString = "http://192.168.1.5:3000/requests/add-request"
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in
@@ -69,7 +69,7 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
     }
     func getmybooks(){
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

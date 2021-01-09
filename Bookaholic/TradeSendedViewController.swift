@@ -13,6 +13,7 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
     var senderbook:[String] = []
     var receiverbook:[String] = []
     var price:[Int] = [0]
+    var Etat:[String] = []
     let username = UserDefaults.standard.string(forKey: "UserName")
     
     override func viewDidLoad() {
@@ -38,6 +39,7 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
         let mybook = contentView?.viewWithTag(3)as! UILabel
         let hisbook = contentView?.viewWithTag(2)as! UILabel
         let price = contentView?.viewWithTag(4)as! UILabel
+        let etat = contentView?.viewWithTag(6)as! UILabel
         
         receiverName.text = self.receiver[indexPath.row] as! String
         print("receiver = ",self.receiver[indexPath.row])
@@ -47,6 +49,14 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
         print("my book = ",self.senderbook[indexPath.row])
         price.text = String(self.price[indexPath.row])+" DT"
         print("price = ",self.price[indexPath.row])
+        etat.text = String(self.Etat[indexPath.row])
+        if(etat.text == "accepted"){
+            etat.textColor = .green
+        }else if(etat.text == "waiting"){
+            etat.textColor = .orange
+        }else{
+            etat.textColor = .red
+        }
         return cell!
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -57,7 +67,7 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
     }
     func tradeSended(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/requests/read-trade-sended/"+String(username!)
+        let url = "http://192.168.1.5:3000/requests/read-trade-sended/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -78,6 +88,7 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
                                     self.receiverbook.append(list[n]["title"]!! as! String)
                                     self.senderbook.append(list[n]["titlechange"]!! as! String)
                                     self.price.append(list[n]["price"] as! Int)
+                                    self.Etat.append(list[n]["etat"] as! String)
                                 }
                             }
                             

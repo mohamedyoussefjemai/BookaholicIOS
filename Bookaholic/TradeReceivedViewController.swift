@@ -10,6 +10,8 @@ import  Alamofire
 class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
     @IBOutlet weak var table: UITableView!
+    var Etat:[String] = []
+    var ids:[Int] = []
     var sender:[String] = []
     var senderbook:[String] = []
     var receiverbook:[String] = []
@@ -39,7 +41,7 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
         let mybook = contentView?.viewWithTag(2)as! UILabel
         let hisbook = contentView?.viewWithTag(3)as! UILabel
         let price = contentView?.viewWithTag(4)as! UILabel
-        
+        let etat = contentView?.viewWithTag(5)as! UILabel
         senderName.text = self.sender[indexPath.row] as! String
         print("sender = ",self.sender[indexPath.row])
         mybook.text = self.receiverbook[indexPath.row] as! String
@@ -48,23 +50,89 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
         print("his book = ",self.senderbook[indexPath.row])
         price.text = String(self.price[indexPath.row])+" DT"
         print("price = ",self.price[indexPath.row])
+        etat.text = String(self.Etat[indexPath.row])
+        if(etat.text == "accepted"){
+            etat.textColor = .green
+        }else if(etat.text == "waiting"){
+            etat.textColor = .orange
+        }else{
+            etat.textColor = .red
+        }
         return cell!
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let refuse = UIContextualAction(style: .normal, title: "Refuse") { (action, view, nil) in
             print ("refusit el trade !")
+            let username = UserDefaults.standard.string(forKey: "UserName")
+            let id = self.ids[indexPath.row]
+            let params = ["usernameSender": self.sender[indexPath.row],
+                          "usernameReceiver" : username,
+                          "title" : self.receiverbook[indexPath.row],
+                          "titlechange": self.senderbook[indexPath.row]] as? Dictionary<String, String>
+            let urlString = "http://192.168.1.5:3000/requests/refuse-trade-request/"+String(id)
+            let headers :HTTPHeaders = ["Content-Type": "application/json"]
+            AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
+            response in
+              switch response.result {
+                            case .success:
+                                print("response ==== ",response)
+                                if let data = response.data {
+                                    let json = String(data: data, encoding: String.Encoding.utf8)
+                                   // self.dismiss(animated: false, completion: nil)
+                                    
+                                    self.table?.reloadData()
+                                }
+                                self.table?.reloadData()
+                                break
+                            case .failure(let error):
+                                
+                                print(error)
+                            }
+            }
         }
         return UISwipeActionsConfiguration(actions: [refuse])
     }
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let accept = UIContextualAction(style: .normal, title: "Accept") { (action, view, nil) in
             print ("acceptit el trade !")
+            let id = self.ids[indexPath.row]
+            let username = UserDefaults.standard.string(forKey: "UserName")
+            //let price =
+            let params = ["usernameSender": self.sender[indexPath.row],
+                          "usernameReceiver" : username,
+                          "title" : self.senderbook[indexPath.row],
+                          "titlechange": self.receiverbook[indexPath.row]] as? Dictionary<String, String>
+            let urlString = "http://192.168.1.5:3000/requests/accept-trade-request/"+String(id)
+            let headers :HTTPHeaders = ["Content-Type": "application/json"]
+            AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
+            response in
+              switch response.result {
+                            case .success:
+                                print("response ==== ",response)
+                                if let data = response.data {
+                                    let json = String(data: data, encoding: String.Encoding.utf8)
+                                   // self.dismiss(animated: false, completion: nil)
+                                    
+                                    self.table?.reloadData()
+                                }
+                                self.table?.reloadData()
+                                break
+                            case .failure(let error):
+                                
+                                print(error)
+                            }
+            }
+
+
+            
+            
+            
         }
         return UISwipeActionsConfiguration(actions: [accept])
     }
     func tradeReceived(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/requests/read-trade-received/"+String(username!)
+        let url = "http://192.168.1.5:3000/requests/read-trade-received/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -85,6 +153,8 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                                     self.receiverbook.append(list[n]["title"]!! as! String)
                                     self.senderbook.append(list[n]["titlechange"]!! as! String)
                                     self.price.append(list[n]["price"] as! Int)
+                                    self.ids.append(list[n]["id"] as! Int)
+                                    self.Etat.append(list[n]["etat"] as! String)
                                 }
                             }
                             
@@ -98,6 +168,9 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                           }
           }
     }
+    
+  
+    
     func convertToDictionary(text: String) -> Any? {
 
          if let data = text.data(using: .utf8) {

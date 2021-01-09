@@ -37,7 +37,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                       "image":image,
                       "book":String(bookid),
                       "username" : username] as? Dictionary<String, String>
-              let urlString = "http://192.168.1.2:3000/favoris/add-favoris"
+              let urlString = "http://192.168.1.5:3000/favoris/add-favoris"
               let headers :HTTPHeaders = ["Content-Type": "application/json"]
               AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
               response in
@@ -205,9 +205,9 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         }
         var url2 = "test"
         if categoryname == "All"{
-             url2 = "http://192.168.1.2:3000/books/"
+             url2 = "http://192.168.1.5:3000/books/"
         }else{
-       url2 = "http://192.168.1.2:3000/books/read-book-category/"+categoryname
+       url2 = "http://192.168.1.5:3000/books/read-book-category/"+categoryname
         }
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url2, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -292,7 +292,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
         
-        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+self.BookImage[indexPath.row] )!
+        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row] )!
         imageView.loadImge(withUrl: url2)
         
         
@@ -348,7 +348,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     }
     func Home(){
         getFav()
-        let url = "http://192.168.1.2:3000/books/"
+        let url = "http://192.168.1.5:3000/books/"
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -430,7 +430,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         favbID = []
 print("fav ids == ",favbID)
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/favoris/read-favoris/"+String(id!)
+        let url = "http://192.168.1.5:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

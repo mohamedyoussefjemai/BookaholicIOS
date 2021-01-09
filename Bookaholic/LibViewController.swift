@@ -41,13 +41,14 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     var book_id : Int?
     var image : String?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:.edit, target: self, action: #selector(goPosts))
-    }
-    @objc func goPosts(){
+    @IBAction func MyPosts(_ sender: Any) {
         performSegue(withIdentifier: "libpost", sender: self)
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,7 +68,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
 
     func library(){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -190,7 +191,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         label.text = self.bookName[indexPath.row] as! String
         print(self.bookName[indexPath.row])
         
-        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+self.BookImage[indexPath.row])!
+        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row])!
         imageView.loadImge(withUrl: url2)
         
         
@@ -215,17 +216,16 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "lib_update"{
-            let destination = segue.destination as! UINavigationController
-            let update = destination.topViewController as! UpDateBookViewController
-            update.bookname = bookname
-            update.auth = auth
-            update.cat = cat
-            update.lang = lang
-            update.prix = prix
-            update.vis = vis
-            update.stat = stat
-            update.book_id = book_id
-            update.image = image
+            let destination = segue.destination as! UpDateBookViewController
+            destination.bookname = bookname
+            destination.auth = auth
+            destination.cat = cat
+            destination.lang = lang
+            destination.prix = prix
+            destination.vis = vis
+            destination.stat = stat
+            destination.book_id = book_id
+            destination.image = image
         }
            
             
@@ -235,7 +235,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     func deleteBook(index: Int){
         let bid = bookid[index]
-        let url = "http://192.168.1.2:3000/books/delete-book/"+String(bid)
+        let url = "http://192.168.1.5:3000/books/delete-book/"+String(bid)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
                do {

@@ -69,7 +69,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
         
-        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+self.BookImage[indexPath.row])!
+        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row])!
         imageView.loadImge(withUrl: url2)
         
         
@@ -91,7 +91,7 @@ class PostViewController: UIViewController,UITableViewDataSource,UITableViewDele
 //        let tabbar = tabBarController as! MyTabBar
 //        id = tabbar.userID
        id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/books/post-book/"+String(id!)
+        let url = "http://192.168.1.5:3000/books/post-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
    

@@ -18,6 +18,8 @@ class ShowBookViewController: UIViewController {
     @IBOutlet weak var tfName: UILabel!
     @IBOutlet weak var image: UIImageView!
     
+    @IBOutlet weak var sale: UIButton!
+    @IBOutlet weak var trade: UIButton!
     var mybooksName : [String] = []
     var img : UIImage?
     var name : String?
@@ -33,6 +35,10 @@ class ShowBookViewController: UIViewController {
     let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (btnusername.titleLabel?.text == usernameSender) {
+            trade.isHidden = true
+            sale.isHidden = true
+        }
 getmybooks()
         tfName.text = name
         tfAuthor.text = author
@@ -42,7 +48,7 @@ getmybooks()
         tfPrice.text = String(price!)+" DT"
         btnusername.setTitle(username, for: .normal)
 
-        let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+bookimage!)!
+        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+bookimage!)!
         image.loadImge(withUrl: url2)
     }
     @IBAction func showUser(){
@@ -65,14 +71,20 @@ getmybooks()
             destination?.bookname = name
             destination?.receiver = username
         }
+        if segue.identifier == "salereq"{
+            let destination = segue.destination as? BuyFormViewController
+            destination?.price = price
+            destination?.bookname = name
+            destination?.receiver = username
+        }
     }
    
-    @IBAction func sale (){
-        
+    @IBAction func salereq (){
+        performSegue(withIdentifier: "salereq", sender: self)
     }
     func getmybooks(){
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.2:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

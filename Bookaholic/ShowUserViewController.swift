@@ -35,7 +35,7 @@ class ShowUserViewController: UIViewController {
     }
     
     func user(){
-        let url = "http://192.168.1.2:3000/users/read-user/"+String(userID!)
+        let url = "http://192.168.1.5:3000/users/read-user/"+String(userID!)
    let headers :HTTPHeaders = ["Content-Type": "application/json"]
        AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
    //to get status code
@@ -69,7 +69,7 @@ class ShowUserViewController: UIViewController {
                                         self.image!.image = UIImage(systemName: "person")
                     }
                                     
-                                    let url2 = URL(string: "http://192.168.1.2:3000/uploads/"+filenameImage)!
+                                    let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+filenameImage)!
        self.image.loadImge(withUrl: url2)
                                        }
                                } catch let error as NSError {

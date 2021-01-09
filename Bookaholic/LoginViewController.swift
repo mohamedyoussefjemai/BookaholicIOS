@@ -31,6 +31,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationItem.setHidesBackButton(true, animated: true)
         eye.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         self.tfEmail.delegate = self
                 self.tfPass.delegate = self
@@ -62,7 +63,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
 //        
         let params = ["email":tfEmail.text,
                       "password":tfPass.text] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/login"
+        let urlString = "http://192.168.1.5:3000/users/login"
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON { [self]
         response in
           switch response.result {
@@ -75,8 +76,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
                                     UserDefaults.standard.set(tfPass.text, forKey: "Password")
                                      //mail = tfEmail.text
                                    performSegue(withIdentifier: "tabar", sender: self)
-                                    
-
                                 }else
                                 {
                                     self.promptAction(promptTitle: "ERROR", promptText: "something went wrong ")
@@ -161,7 +160,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     
    
      func user(){
-        let url = "http://192.168.1.2:3000/users/read-user-email/"+tfEmail.text!
+        let url = "http://192.168.1.5:3000/users/read-user-email/"+tfEmail.text!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
     //to get status code

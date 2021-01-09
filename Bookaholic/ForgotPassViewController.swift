@@ -47,7 +47,7 @@ class ForgotPassViewController: UIViewController {
         let params = ["to":email.text!,
                       "subject":"forgot password",
                       "text":"this your code : "+code+" please write it in your phone "] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.2:3000/users/forgot"
+        let urlString = "http://192.168.1.5:3000/users/forgot"
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON { 
         response in
           switch response.result {
@@ -104,7 +104,7 @@ class ForgotPassViewController: UIViewController {
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
             let params = ["email":email.text!,
                           "password":pass.text!] as? Dictionary<String, String>
-            let urlString = "http://192.168.1.2:3000/users/update-user-email"
+            let urlString = "http://192.168.1.5:3000/users/update-user-email"
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
