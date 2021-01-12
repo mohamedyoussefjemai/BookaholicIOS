@@ -43,8 +43,8 @@ class ShowUserViewController: UIViewController {
     }
     
     @IBAction func Contact(_ sender: Any) {
-        let url = URL (string: "https://www.facebook.com/messages/t/vvassim260696")!
-             UIApplication.shared.open (url)
+       let url = URL (string:messenger)
+        UIApplication.shared.open (url!)
     }
     func user(){
         let url = "http://192.168.1.4:3000/users/read-user/"+String(userID!)

@@ -335,7 +335,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         UserDefaults.standard.removeObject(forKey: "Password")
         UserDefaults.standard.removeObject(forKey: "UserID")
         UserDefaults.standard.removeObject(forKey: "UserName")
-// performSegue(withIdentifier: "logout", sender: self)
+        UserDefaults.standard.removeObject(forKey: "Messenger")// performSegue(withIdentifier: "logout", sender: self)
                     let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "login") as? LoginViewController
                     newViewController?.modalPresentationStyle = .fullScreen
 
