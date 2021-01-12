@@ -11,6 +11,7 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     
     let username = UserDefaults.standard.string(forKey: "UserName")
     @IBOutlet weak var table: UITableView!
+    var ids : [Int] = []
     var to : [String]=[]
     var book : [String]=[]
     var Etat : [String]=[]
@@ -56,13 +57,21 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "delete") { (action, view, nil) in
             print ("fasa5t el request !")
+            let id = self.ids[indexPath.row]
+            self.delete(id: id)
+            self.ids.remove(at: indexPath.row)
+            self.to.remove(at: indexPath.row)
+            self.book.remove(at: indexPath.row)
+            self.Etat.remove(at: indexPath.row)
+            self.price.remove(at: indexPath.row)
+            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
     func buyReq(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/requests/read-sale-sended/"+String(username!)
+        let url = "http://192.168.1.4:3000/requests/read-sale-sended/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -82,6 +91,8 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
                                     self.to.append(list[n]["receiver"]!! as! String)
                                     self.book.append(list[n]["title"]!! as! String)
                                     self.price.append(list[n]["price"] as! Int)
+                                    self.ids.append(list[n]["id"] as! Int)
+                                    self.Etat.append(list[n]["etat"]!! as! String)
                                 }
                             }
                             
@@ -94,6 +105,32 @@ class BuyReqViewController: UIViewController ,UITableViewDelegate,UITableViewDat
                               print(error)
                           }
           }
+    }
+    
+    func delete(id: Int){
+        let url = "http://192.168.1.4:3000/requests/delete-sale-request/"+String(id)
+    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
+               do {
+                   guard let jsonObject = try JSONSerialization.jsonObject(with: AFdata.data!) as? [String: Any] else {
+                       print("Error: Cannot convert data to JSON object")
+                       return
+                   }
+                   guard let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted) else {
+                       print("Error: Cannot convert JSON object to Pretty JSON data")
+                       return
+                   }
+                   guard let prettyPrintedJson = String(data: prettyJsonData, encoding: .utf8) else {
+                       print("Error: Could print JSON in String")
+                       return
+                   }
+
+                   print(prettyPrintedJson)
+               } catch {
+                   print("Error: Trying to convert JSON data to string")
+                   return
+               }
+           }
     }
     func convertToDictionary(text: String) -> Any? {
 

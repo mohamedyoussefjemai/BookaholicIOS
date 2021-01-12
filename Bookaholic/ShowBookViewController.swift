@@ -31,14 +31,18 @@ class ShowBookViewController: UIViewController {
     var username : String?
     var userID : Int?
     var bookimage: String?
+    var messenger: String?
     let usernameSender = UserDefaults.standard.string(forKey: "UserName")
     let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (btnusername.titleLabel?.text == usernameSender) {
+        print("user id =============== ",userID)
+        print("username sender ====== ",usernameSender!)
+        if (username == usernameSender) {
             trade.isHidden = true
             sale.isHidden = true
         }
+        
 getmybooks()
         tfName.text = name
         tfAuthor.text = author
@@ -48,7 +52,7 @@ getmybooks()
         tfPrice.text = String(price!)+" DT"
         btnusername.setTitle(username, for: .normal)
 
-        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+bookimage!)!
+        let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+bookimage!)!
         image.loadImge(withUrl: url2)
     }
     @IBAction func showUser(){
@@ -84,19 +88,18 @@ getmybooks()
     }
     func getmybooks(){
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.4:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
                           case .success:
-                              print(response)
                               if let data = response.data {
                                   let json = String(data: data, encoding: String.Encoding.utf8)
                               
                                 let data = json!.data(using: .utf8)!
                                do {
                                    let jsonArray = json!
-                                    print("jSONARRAY ===",jsonArray)
+                                    
                                   
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                             if list.isEmpty {

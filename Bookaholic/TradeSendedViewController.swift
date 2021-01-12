@@ -9,6 +9,7 @@ import UIKit
 import Alamofire
 class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableViewDelegate  {
     @IBOutlet weak var table: UITableView!
+    var ids : [Int] = []
     var receiver:[String] = []
     var senderbook:[String] = []
     var receiverbook:[String] = []
@@ -62,12 +63,47 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "Delete") { (action, view, nil) in
             print ("fasa5t el trade request!")
+            let id = self.ids[indexPath.row]
+            print("id ) ))))) ",id)
+            self.delete(id: id)
+            self.ids.remove(at: indexPath.row)
+            self.receiver.remove(at: indexPath.row)
+            self.senderbook.remove(at: indexPath.row)
+            self.receiverbook.remove(at: indexPath.row)
+            self.price.remove(at: indexPath.row)
+            self.Etat.remove(at: indexPath.row)
+            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [delete])
     }
+    func delete(id: Int){
+        let url = "http://192.168.1.4:3000/requests/delete-trade-request/"+String(id)
+    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
+               do {
+                   guard let jsonObject = try JSONSerialization.jsonObject(with: AFdata.data!) as? [String: Any] else {
+                       print("Error: Cannot convert data to JSON object")
+                       return
+                   }
+                   guard let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted) else {
+                       print("Error: Cannot convert JSON object to Pretty JSON data")
+                       return
+                   }
+                   guard let prettyPrintedJson = String(data: prettyJsonData, encoding: .utf8) else {
+                       print("Error: Could print JSON in String")
+                       return
+                   }
+
+                   print(prettyPrintedJson)
+               } catch {
+                   print("Error: Trying to convert JSON data to string")
+                   return
+               }
+           }
+    }
     func tradeSended(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/requests/read-trade-sended/"+String(username!)
+        let url = "http://192.168.1.4:3000/requests/read-trade-sended/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -89,6 +125,7 @@ class TradeSendedViewController: UIViewController,UITableViewDataSource,UITableV
                                     self.senderbook.append(list[n]["titlechange"]!! as! String)
                                     self.price.append(list[n]["price"] as! Int)
                                     self.Etat.append(list[n]["etat"] as! String)
+                                    self.ids.append(list[n]["id"] as! Int)
                                 }
                             }
                             

@@ -35,6 +35,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     var busername : String?
     var buserid : Int?
     var bbookimage: String?
+    var bookID : Int!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bookname.count
@@ -58,15 +59,23 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         language.text = self.language[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
         
-        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row])!
+        let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+self.BookImage[indexPath.row])!
         imageView.loadImge(withUrl: url2)
         
+        status.textColor = .white
         if(status.text == "new"){
-            status.textColor = .green
+            status.backgroundColor = .systemGreen
+            status.layer.cornerRadius = 5
+            status.layer.masksToBounds = true
         }else if(status.text == "satisfying"){
-            status.textColor = .blue
+            
+                status.backgroundColor = .systemBlue
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
         }else{
-            status.textColor = .red
+                status.backgroundColor = .systemRed
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
         }
         price.text = String(self.price[indexPath.row])+" DT"
         return cell!
@@ -84,7 +93,8 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
             price.remove(at: indexPath.row)
             bookid.remove(at: indexPath.row)
             BookImage.remove(at: indexPath.row)
-
+            userbookid.remove(at: indexPath.row)
+            userName.remove(at: indexPath.row)
             tableView.reloadData()
         }
        
@@ -99,8 +109,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         bprix = price [indexPath.row]
         busername = userName[indexPath.row]
         bbookimage = BookImage[indexPath.row]
-        
-       // buserid = userbookid[indexPath.row]
+       buserid = userbookid[indexPath.row]
         performSegue(withIdentifier: "showbook", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,13 +122,11 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         destination?.price = bprix
         destination?.username = busername
         destination?.bookimage = bbookimage
-
-       // destination?.userID = buserid
+        destination?.userID = buserid
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+	
     }
     override func viewDidAppear(_ animated: Bool) {
         print("did appear")
@@ -133,31 +140,28 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         userName.removeAll()
         bookid.removeAll()
         BookImage.removeAll()
+        userbookid.removeAll()
         self.favorites()
         
     }
     func favorites(){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/favoris/read-favoris/"+String(id!)
+        let url = "http://192.168.1.4:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
                           case .success:
-                              print(response)
                               if let data = response.data {
                                   let json = String(data: data, encoding: String.Encoding.utf8)
                               
                                 let data = json!.data(using: .utf8)!
                                do {
                                    let jsonArray = json!
-                                    print("jSONARRAY ===",jsonArray)
-                                  
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                             if list.isEmpty{
                                 print("fav is empty")
                             }else{
                                 for n in 0...list.count-1 {
-                                    print("booook ===== ",list[n]["title"]!!)
                                     self.bookname.append(list[n]["title"]!! as! String)
                                     self.category.append(list[n]["category"]!! as! String)
                                     self.author.append(list[n]["author"]!! as! String)
@@ -168,7 +172,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
                                     self.bookid.append(list[n]["book"] as! Int)
                                     self.userName.append(list[n]["username"]!! as! String)
                                     self.BookImage.append(list[n]["image"]!! as! String)
-                                    
+                                    self.userbookid.append(list[n]["user"] as! Int)
                                 }
                             }
                             
@@ -198,7 +202,7 @@ class FavViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     func deleteBook(index: Int){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
         let bid = bookid[index]
-        let url = "http://192.168.1.5:3000/favoris/delete-favoris/"+String(id)+"/"+String(bid)
+        let url = "http://192.168.1.4:3000/favoris/delete-favoris/"+String(id)+"/"+String(bid)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
                do {

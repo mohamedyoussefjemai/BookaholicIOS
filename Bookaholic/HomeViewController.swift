@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import QuartzCore
 class HomeViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate, btnincell {
     
     
@@ -37,7 +38,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                       "image":image,
                       "book":String(bookid),
                       "username" : username] as? Dictionary<String, String>
-              let urlString = "http://192.168.1.5:3000/favoris/add-favoris"
+              let urlString = "http://192.168.1.4:3000/favoris/add-favoris"
               let headers :HTTPHeaders = ["Content-Type": "application/json"]
               AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
               response in
@@ -63,6 +64,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
 
     var bookName:[String] = []
     var category:[String] = []
+    var messenger:[String] = []
     var author:[String] = []
     var status:[String] = []
     var language:[String] = []
@@ -83,7 +85,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     var vis : Int?
     var book_id : Int?
     var id : Int!
-    
+    var bmessenger : String?
     var bname: String?
     var bauth: String?
     var bcat: String?
@@ -131,11 +133,11 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         category = []
         author = []
         price = []
+        userName = []
         Home()
         table.reloadData()
-       
-        
     }
+    
     func tap(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
         tapGesture.numberOfTapsRequired = 2
@@ -143,7 +145,6 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
         collectionView1.delegate = self
         collectionView1.dataSource = self 
         tap()
@@ -157,14 +158,11 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         return data.count
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
             let cell1 = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCVC", for: indexPath)as! HomeCVC
             cell1.catimage.image = catlist[indexPath.row]
         cell1.catname.text = catanames[indexPath.row]
             return cell1
-              
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         bookName.removeAll()
@@ -201,13 +199,12 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
             categoryname = "travel"
         default:
             categoryname = catanames[indexPath.row]
-            
         }
         var url2 = "test"
         if categoryname == "All"{
-             url2 = "http://192.168.1.5:3000/books/"
+             url2 = "http://192.168.1.4:3000/books/"
         }else{
-       url2 = "http://192.168.1.5:3000/books/read-book-category/"+categoryname
+       url2 = "http://192.168.1.4:3000/books/read-book-category/"+categoryname
         }
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url2, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -240,7 +237,6 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                 self.BookImage.append(list[n]["image"]!! as! String)
                                 
                             }
-                                
                             }
                             self.table?.reloadData()
                                         }
@@ -272,40 +268,41 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         let status = contentView?.viewWithTag(8)as! UILabel
         let price = contentView?.viewWithTag(9)as! UILabel
         
-        
-        /// /// /// ///
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_gesture:)))
-//        tapGesture.numberOfTapsRequired = 2
-//        bookimage?.isUserInteractionEnabled = true
-//        bookimage?.addGestureRecognizer(tapGesture)
-        
+      
         ///////
         label.text = self.bookName[indexPath.row] as! String
-        
-        
-        
-
-        
-    category.text = self.category[indexPath.row] as! String
+        category.text = self.category[indexPath.row] as! String
         author.text = self.author[indexPath.row] as! String
         language.text = self.language[indexPath.row] as! String
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
-        
-        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row] )!
+        let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+self.BookImage[indexPath.row] )!
         imageView.loadImge(withUrl: url2)
-        
-        
+        	
+        status.textColor = .white
         if(status.text == "new"){
-            status.textColor = .green
+            status.backgroundColor = .systemGreen
+            status.layer.cornerRadius = 5
+            status.layer.masksToBounds = true
         }else if(status.text == "satisfying"){
-            status.textColor = .blue
+            
+                status.backgroundColor = .systemBlue
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
         }else{
-            status.textColor = .red
+                status.backgroundColor = .systemRed
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
+        }
+        if username.text == UserDefaults.standard.string(forKey: "UserName"){
+            cell?.heart.isHidden = true
+        }else{
+            cell?.heart.isHidden = false
         }
         price.text = String(self.price[indexPath.row])+" DT"
         if favbID.contains(bookid[indexPath.row]) {
         cell?.heart.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            
         }else{
             cell?.heart.setImage(UIImage(systemName: "heart"), for: .normal)
         }
@@ -348,7 +345,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     }
     func Home(){
         getFav()
-        let url = "http://192.168.1.5:3000/books/"
+        let url = "http://192.168.1.4:3000/books/"
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -361,7 +358,6 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                do {
                                    let jsonArray = json!
                                     //print("jSONARRAY ===",jsonArray)
-                                  
                            if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                             for n in 0...list.count-1 {
                                // print("booook ===== ",list[n]["title"]!!)
@@ -376,6 +372,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
                                 self.userName.append(list[n]["username"]!! as! String)
                                 self.userbookid.append(list[n]["user"] as! Int)
                                 self.BookImage.append(list[n]["image"] as! String)
+                             
                             }
                             self.table?.reloadData()
                                         }
@@ -390,7 +387,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
     func showToast(message: String) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2-75, y: self.view.frame.height - 150, width: 150, height: 40))
         toastLabel.textAlignment = .center
-        toastLabel.backgroundColor = UIColor.green.withAlphaComponent(0.6)
+        toastLabel.backgroundColor = .systemGreen
         toastLabel.textColor = UIColor.white
         toastLabel.text = message
         toastLabel.alpha = 1.0
@@ -430,7 +427,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate,UICollection
         favbID = []
 print("fav ids == ",favbID)
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/favoris/read-favoris/"+String(id!)
+        let url = "http://192.168.1.4:3000/favoris/read-favoris/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

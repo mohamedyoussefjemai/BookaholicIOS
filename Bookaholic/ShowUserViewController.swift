@@ -27,15 +27,27 @@ class ShowUserViewController: UIViewController {
     var address : String?
     var username : String?
     var userID : Int?
+    var messenger : String!
+    @IBOutlet weak var btnContact: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         user()
+        if messenger == "null"{
+            btnContact.isHidden = true
+        }
+        else{
+            btnContact.isHidden = false
+        }
         
     }
     
+    @IBAction func Contact(_ sender: Any) {
+        let url = URL (string: "https://www.facebook.com/messages/t/vvassim260696")!
+             UIApplication.shared.open (url)
+    }
     func user(){
-        let url = "http://192.168.1.5:3000/users/read-user/"+String(userID!)
+        let url = "http://192.168.1.4:3000/users/read-user/"+String(userID!)
    let headers :HTTPHeaders = ["Content-Type": "application/json"]
        AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
    //to get status code
@@ -54,6 +66,14 @@ class ShowUserViewController: UIViewController {
                                     self.phone = list[0]["phone"] as? Int
                                     self.address = list[0]["address"] as? String
                                     self.email = list[0]["email"] as? String
+                                    self.messenger =  list[0]["messenger"] as? String
+                                    if self.messenger == "null"{
+                                        self.btnContact.isHidden = true
+                                    }
+                                    else{
+                                        self.btnContact.isHidden = false
+                                    }
+                                    
                                     self.tfAdress.text = self.address
                                     self.tfPhone.text = String(self.phone!)
                                     self.tfEmail.text = self.email
@@ -69,7 +89,7 @@ class ShowUserViewController: UIViewController {
                                         self.image!.image = UIImage(systemName: "person")
                     }
                                     
-                                    let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+filenameImage)!
+                                    let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+filenameImage)!
        self.image.loadImge(withUrl: url2)
                                        }
                                } catch let error as NSError {

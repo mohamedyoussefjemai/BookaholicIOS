@@ -63,7 +63,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
 //        
         let params = ["email":tfEmail.text,
                       "password":tfPass.text] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/users/login"
+        let urlString = "http://192.168.1.4:3000/users/login"
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON { [self]
         response in
           switch response.result {
@@ -139,18 +139,21 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //let mail = sender as! String
 //        let id = sender as! Int
-        let destination = segue.destination as? MyTabBar
-        destination?.mailtabar = mail
-       destination?.userID = id
-    destination?.username = username
+        if segue.identifier == "tabar"{
+            let destination = segue.destination as? MyTabBar
+            destination?.mailtabar = mail
+           destination?.userID = id
+        destination?.username = username
+        }
+        
           
             
        
     }
     func goToForgotPass(){
-        let vc=storyboard?.instantiateViewController(identifier: "forgot")as! ForgotPassViewController
-        present(vc, animated: true)
-        
+//        let vc=storyboard?.instantiateViewController(identifier: "forgot")as! ForgotPassViewController
+//        present(vc, animated: true)
+        performSegue(withIdentifier: "forgot", sender: self)
     }
     @IBAction func goToRegister(){
         let vc=storyboard?.instantiateViewController(identifier: "register")as! RegisterViewController
@@ -160,7 +163,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
     
    
      func user(){
-        let url = "http://192.168.1.5:3000/users/read-user-email/"+tfEmail.text!
+        let url = "http://192.168.1.4:3000/users/read-user-email/"+tfEmail.text!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in print(response)
     //to get status code

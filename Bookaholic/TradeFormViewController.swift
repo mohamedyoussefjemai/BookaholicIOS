@@ -51,7 +51,7 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
                       "price" :String(price ?? 0),
                     "type" :"trade" ,
                     "etat" :"waiting"] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/requests/add-request"
+        let urlString = "http://192.168.1.4:3000/requests/add-request"
         let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
         response in
@@ -60,7 +60,9 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
                             if let data = response.data {
                                 let json = String(data: data, encoding: String.Encoding.utf8)
                                 print("trade req sended !")
-                                }
+                                self.showToast(message: "trade sent!")
+                                
+                            }
                             break
                         case .failure(let error):
                             print(error)
@@ -69,7 +71,7 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
     }
     func getmybooks(){
         let id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.4:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -96,6 +98,25 @@ class TradeFormViewController: UIViewController,UIPickerViewDataSource,UIPickerV
                               print(error)
                           }
           }
+    }
+    func showToast(message: String) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2-75, y: self.view.frame.height - 150, width: 150, height: 40))
+        toastLabel.textAlignment = .center
+        toastLabel.backgroundColor = .systemGreen
+        toastLabel.textColor = UIColor.white
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 1.0, options: .curveEaseInOut) {
+            toastLabel.alpha = 0.0
+            
+        } completion: { (isCompleted) in
+            toastLabel.removeFromSuperview()
+        }
+
+        
     }
     func convertToDictionary(text: String) -> Any? {
 

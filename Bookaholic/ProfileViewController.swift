@@ -9,9 +9,11 @@ import UIKit
 import Alamofire
 class ProfileViewController: UIViewController, UINavigationControllerDelegate ,UIImagePickerControllerDelegate,UIPopoverControllerDelegate	 {
     
-   
+    @IBOutlet weak var labtrade: UILabel!
+    @IBOutlet weak var labsale: UILabel!
     var usertf : UITextField!
-    
+    @IBOutlet var upMessenger: UITextField!
+    @IBOutlet var tfMessenger: UILabel!
     @IBOutlet weak var btnImage: UIButton!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var btnname: UIButton!
@@ -24,18 +26,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     @IBOutlet weak var Vphone: UIButton!
     @IBOutlet weak var Vemail: UIButton!
     @IBOutlet weak var tfUserName: UILabel!
-    
+    @IBOutlet var Vmessenger: UIButton!
     @IBOutlet weak var tfEmail: UILabel!
-    
     @IBOutlet weak var tfPhone: UILabel!
-    
     @IBOutlet weak var tfAddress: UILabel!
     
-   
-    
+    var compteur = 0
     var bookName:[String] = []
     var category:[String] = []
-    
     var mail : String?
     var userID: Int?
     var codeverif = ""
@@ -44,11 +42,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     var imagePicker: UIImagePickerController!
         var   fileName2 = String();
         var url2: URL!
+    
         enum ImageSource {
             case photoLibrary
             case camera
         }
-
     @IBAction func btnSelectImage(_ sender: Any) {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
                            {
@@ -58,16 +56,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                self.present(myPickerController, animated: true, completion: nil)
                            }
         }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
              {
                  if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                      self.userImage.image = image
                     uploadImage(file : String(userID!))
-                    ////
                     let headers :HTTPHeaders = ["Content-Type": "application/json"]
                 let params = ["image": filenameImage] as? Dictionary<String, String>
-                let urlString = "http://192.168.1.5:3000/users/update-user-image/"+String(self.userID!)
+                let urlString = "http://192.168.1.4:3000/users/update-user-image/"+String(self.userID!)
                 print(String(self.userID!))
                     AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
                     response in
@@ -85,19 +81,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                     }
                     }
                     
-                    
-                    
                  }else{
                      debugPrint("Something went wrong")
                  }
                  self.dismiss(animated: true, completion: nil)
              }
-
-        
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
                    picker.dismiss(animated: true, completion: nil)
                }
-
         
         func uploadImage(file : String)
          {
@@ -105,50 +96,43 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                          /* "Authorization": "your_access_token",  in case you need authorization header */
                          "Content-type": "multipart/form-data"
                      ]
-
-            
-            
-            
                          AF.upload(
                              multipartFormData: { multipartFormData in
                                  multipartFormData.append(self.userImage.image!.jpegData(compressionQuality: 0.5)!, withName: "upload" , fileName: file+".jpeg", mimeType: "image/jpeg")
-                                
-                    
                                 self.filenameImage = file+".jpeg"
                                 print("imaaaaaaageeeeee =====> ",self.filenameImage)
                          },
-                             to: "http://192.168.1.5:3000/upload/ios", method: .post , headers: headers)
+                             to: "http://192.168.1.4:3000/upload/ios", method: .post , headers: headers)
                              .response { resp in
                                  print(resp)
                          }
          }
     
-    
-    
-    
-    
-    
-  
-       
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let tabbar = tabBarController as! MyTabBar
-//        mail = tabbar.mailtabar
+        userImage.layer.masksToBounds = true
+        userImage.layer.cornerRadius = userImage.frame.height/2
+        userImage.clipsToBounds = true
+
+        print("nbr tradee dans view did load",compteur)
+        
         mail = UserDefaults.standard.string(forKey: "Email")
         userID = UserDefaults.standard.integer(forKey: "UserID")
         
         self.tfEmail.text = mail!
         self.profile()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        tradeReceived()
+        saleReceived()
+    }
     @IBAction func menu(){
         performSegue(withIdentifier: "tomenu", sender: self)
     }
-    
     @IBAction func profile(){
-    let url = "http://192.168.1.5:3000/users/read-user-email/"+mail!
+    let url = "http://192.168.1.4:3000/users/read-user-email/"+mail!
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-   
                     print(response)
     //to get status code
             switch response.result {
@@ -156,20 +140,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                               print(response)
                               if let data = response.data {
                                   let json = String(data: data, encoding: String.Encoding.utf8)
-                              
-                                  print("USER ====> ",json!)
                                 let data = json!.data(using: .utf8)!
-                                print("data = ",data)
                                 do {
                                     let jsonArray = json!
                                     print("jSONARRAY ===",jsonArray)
                                     if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
                                        // self.userID = list[0]["id"]!! as? Int
-                 
                                         let tel = list[0]["phone"]!! as? Int
-                self.tfPhone.text = String(tel!)
-                self.tfUserName.text = list[0]["username"]!! as? String
-                self.tfAddress.text = list[0]["address"]!! as? String
+                                        self.tfPhone.text = String(tel!)
+                                        self.tfUserName.text = list[0]["username"]!! as? String
+                                        self.tfAddress.text = list[0]["address"]!! as? String
+                                        self.tfMessenger.text = list[0]["messenger"]!! as? String
                                         let sale = list[0]["sale"]!! as? Int
                                         let trade = list[0]["trade"]!! as? Int
                                         self.tfSale.text = String(sale!)
@@ -181,8 +162,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                             self.userImage!.image = UIImage(systemName: "person")
                         }
                                         
-                                        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.filenameImage)!
-           self.userImage.loadImge(withUrl: url2)
+                                        let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+self.filenameImage)!
+                                        self.userImage.loadImge(withUrl: url2)
                                         
                                     }
                                 } catch let error as NSError {
@@ -205,9 +186,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
          }
          return nil
     }
-    /////////
     
-    ///
     @IBAction func importImage(){
 
         let image = UIImagePickerController()
@@ -241,7 +220,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["email":upEmail.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/users/update-user-email/"+String(self.userID!)
+        let urlString = "http://192.168.1.4:3000/users/update-user-email/"+String(self.userID!)
         print(String(self.userID!))
         print(tfEmail.text!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
@@ -265,11 +244,37 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
             }
            }
     
+    
+    @IBAction func changeMessenger(){
+            let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        let params = ["messenger":upMessenger.text!] as? Dictionary<String, String>
+        let urlString = "http://192.168.1.4:3000/users/update-user-messenger/"+String(self.userID!)
+        print(String(self.userID!))
+            AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
+            response in
+              switch response.result {
+                            case .success:
+                                print(response)
+                                if let data = response.data {
+                                    let json = String(data: data, encoding: String.Encoding.utf8)
+                                    print(json!)
+                                    UserDefaults.standard.removeObject(forKey: "Messenger")
+                                    UserDefaults.standard.set(self.upMessenger.text, forKey: "Messenger")
+                                    self.tfMessenger.text = self.upMessenger.text
+                                    self.upMessenger.text = ""
+                                    }
+                                break
+                            case .failure(let error):
+                                
+                                print(error)
+                            }
+            }
+           }
     @IBAction func changePhone(){
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["phone":upPhone.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/users/update-user-phone/"+String(self.userID!)
+        let urlString = "http://192.168.1.4:3000/users/update-user-phone/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -295,7 +300,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
       
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
         let params = ["address":upAddress.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/users/update-user-address/"+String(self.userID!)
+        let urlString = "http://192.168.1.4:3000/users/update-user-address/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -330,20 +335,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         UserDefaults.standard.removeObject(forKey: "Password")
         UserDefaults.standard.removeObject(forKey: "UserID")
         UserDefaults.standard.removeObject(forKey: "UserName")
- performSegue(withIdentifier: "logout", sender: self)
-//        let vc=storyboard?.instantiateViewController(identifier: "login_VC")as! LoginViewController
-//        present(vc, animated: true)
+// performSegue(withIdentifier: "logout", sender: self)
+                    let newViewController = self.storyboard?.instantiateViewController(withIdentifier: "login") as? LoginViewController
+                    newViewController?.modalPresentationStyle = .fullScreen
+
+                    self.present(newViewController!, animated: true)
     }
     
    @IBAction func goToForgotPass(){
         let vc=storyboard?.instantiateViewController(identifier: "forgot")as! ForgotPassViewController
         present(vc, animated: true)
         
-    }
-    
-
-   
-    
+    } 
     
     func randomString(length: Int) -> String {
       let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -351,12 +354,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
     }
     func changeUsername(){
 
-
-        
-        
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
-        let params = ["username":usertf.text!] as? Dictionary<String, String>
-        let urlString = "http://192.168.1.5:3000/users/update-user-username/"+String(self.userID!)
+        let params = ["username":usertf.text!,
+                      "oldUsername":tfUserName.text!] as? Dictionary<String, String>
+        let urlString = "http://192.168.1.4:3000/users/update-user-username/"+String(self.userID!)
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
               switch response.result {
@@ -365,8 +366,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
                                 if let data = response.data {
                                     let json = String(data: data, encoding: String.Encoding.utf8)
                                     print(json!)
-                                    //UserDefaults.standard.removeObject(forKey: "Username")
-                                   // UserDefaults.standard.set(self.upEmail.text, forKey: "Username")
+                                    UserDefaults.standard.removeObject(forKey: "UserName")
+                                   UserDefaults.standard.set(self.usertf.text, forKey: "UserName")
                                     self.tfUserName.text = self.usertf.text
                                    
                                     }
@@ -400,9 +401,75 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate ,U
         usertf?.placeholder = "tap new username"
         
     }
-
-   
-        }
+    func saleReceived() -> Int{
+        var c = 0
+       let username = UserDefaults.standard.string(forKey: "UserName")
+        let url = "http://192.168.1.4:3000/requests/read-sale-received/"+String(username!)
+    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+                          case .success:
+                              print(response)
+                              if let data = response.data {
+                                  let json = String(data: data, encoding: String.Encoding.utf8)
+                              
+                                let data = json!.data(using: .utf8)!
+                               do {
+                                   let jsonArray = json!
+                           if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
+                            if list.isEmpty {
+                                print("no trade received")
+                                self.labsale.text = "sales"
+                            }else{
+                                c = list.count
+                                self.labsale.text = "sales ("+String(c)+")"
+                                print("compteur ======",c)
+                                }
+                            }
+                                        }
+                                }
+            case .failure(_): break
+                
+            }
+                          }
+        return c
+          }
+    func tradeReceived() -> Int{
+        var c = 0
+       let username = UserDefaults.standard.string(forKey: "UserName")
+        let url = "http://192.168.1.4:3000/requests/read-trade-received/"+String(username!)
+    let headers :HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            switch response.result {
+                          case .success:
+                              print(response)
+                              if let data = response.data {
+                                  let json = String(data: data, encoding: String.Encoding.utf8)
+                              
+                                let data = json!.data(using: .utf8)!
+                               do {
+                                   let jsonArray = json!
+                           if let list = self.convertToDictionary(text: jsonArray) as? [AnyObject] {
+                            if list.isEmpty {
+                                print("no trade received")
+                                self.labtrade.text = "Trades"
+                            }else{
+                                c = list.count
+                                self.labtrade.text = "Trades ("+String(c)+")"
+                                print("compteur ======",c)
+                                }
+                            }
+                            
+                            
+                                        }
+                                }
+            case .failure(_): break
+                
+            }
+                          }
+        return c
+          }
+    }
 
 
 extension UIImageView {
@@ -417,5 +484,8 @@ extension UIImageView {
            }
        }
    }
+    
+    
+   
 }
 

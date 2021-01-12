@@ -69,7 +69,7 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                           "usernameReceiver" : username,
                           "title" : self.receiverbook[indexPath.row],
                           "titlechange": self.senderbook[indexPath.row]] as? Dictionary<String, String>
-            let urlString = "http://192.168.1.5:3000/requests/refuse-trade-request/"+String(id)
+            let urlString = "http://192.168.1.4:3000/requests/refuse-trade-request/"+String(id)
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
@@ -89,6 +89,13 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                                 print(error)
                             }
             }
+            self.Etat.remove(at: indexPath.row)
+            self.ids.remove(at: indexPath.row)
+            self.sender.remove(at: indexPath.row)
+            self.senderbook.remove(at: indexPath.row)
+            self.receiverbook.remove(at: indexPath.row)
+            self.price.remove(at: indexPath.row)
+            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [refuse])
     }
@@ -102,7 +109,7 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                           "usernameReceiver" : username,
                           "title" : self.senderbook[indexPath.row],
                           "titlechange": self.receiverbook[indexPath.row]] as? Dictionary<String, String>
-            let urlString = "http://192.168.1.5:3000/requests/accept-trade-request/"+String(id)
+            let urlString = "http://192.168.1.4:3000/requests/accept-trade-request/"+String(id)
             let headers :HTTPHeaders = ["Content-Type": "application/json"]
             AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: headers).responseJSON {
             response in
@@ -123,7 +130,13 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
                             }
             }
 
-
+            self.Etat.remove(at: indexPath.row)
+            self.ids.remove(at: indexPath.row)
+            self.sender.remove(at: indexPath.row)
+            self.senderbook.remove(at: indexPath.row)
+            self.receiverbook.remove(at: indexPath.row)
+            self.price.remove(at: indexPath.row)
+            tableView.reloadData()
             
             
             
@@ -132,7 +145,7 @@ class TradeReceivedViewController: UIViewController,UITableViewDataSource,UITabl
     }
     func tradeReceived(){
         //id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/requests/read-trade-received/"+String(username!)
+        let url = "http://192.168.1.4:3000/requests/read-trade-received/"+String(username!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {

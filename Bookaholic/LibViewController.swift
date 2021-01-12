@@ -68,7 +68,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
 
     func library(){
         id = Int(UserDefaults.standard.string(forKey: "UserID")!)
-        let url = "http://192.168.1.5:3000/books/lib-book/"+String(id!)
+        let url = "http://192.168.1.4:3000/books/lib-book/"+String(id!)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .get , encoding: JSONEncoding.default, headers: headers).responseJSON { response in
             switch response.result {
@@ -191,7 +191,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         label.text = self.bookName[indexPath.row] as! String
         print(self.bookName[indexPath.row])
         
-        let url2 = URL(string: "http://192.168.1.5:3000/uploads/"+self.BookImage[indexPath.row])!
+        let url2 = URL(string: "http://192.168.1.4:3000/uploads/"+self.BookImage[indexPath.row])!
         imageView.loadImge(withUrl: url2)
         
         
@@ -200,12 +200,20 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
         language.text = self.language[indexPath.row] as! String
         username.text = self.userName[indexPath.row] as! String
         status.text = self.status[indexPath.row] as! String
+        status.textColor = .white
         if(status.text == "new"){
-            status.textColor = .green
+            status.backgroundColor = .systemGreen
+            status.layer.cornerRadius = 5
+            status.layer.masksToBounds = true
         }else if(status.text == "satisfying"){
-            status.textColor = .blue
+            
+                status.backgroundColor = .systemBlue
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
         }else{
-            status.textColor = .red
+                status.backgroundColor = .systemRed
+                status.layer.cornerRadius = 5
+                status.layer.masksToBounds = true
         }
         price.text = String(self.price[indexPath.row])+" DT"
         eye.setImage(UIImage(named: self.eye[indexPath.row]), for: .normal)
@@ -235,7 +243,7 @@ class LibViewController: UIViewController,UITableViewDataSource,UITableViewDeleg
     
     func deleteBook(index: Int){
         let bid = bookid[index]
-        let url = "http://192.168.1.5:3000/books/delete-book/"+String(bid)
+        let url = "http://192.168.1.4:3000/books/delete-book/"+String(bid)
     let headers :HTTPHeaders = ["Content-Type": "application/json"]
         AF.request(url, method: .delete , encoding: JSONEncoding.default, headers: headers).responseJSON { AFdata in
                do {
